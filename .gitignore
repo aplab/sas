@@ -1,0 +1,30 @@
+
+###> symfony/framework-bundle ###
+/.env
+/.env.test
+/.env.local
+/.env.local.php
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+/.idea/
+/src/Resources/static/node_modules/
+/public/aplab/
+/public/filestorage/
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+.mysqli_manager.ini

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gallery builder</title>
+    <link rel="stylesheet" href="{{ asset('/static/vendor.css') }}">
+</head>
+<body>
+<div class="container">
+<textarea class="form-control" name="" id="" rows="20">{% for item in items %}{% set code = "<p>
+    <img src=\"#{item.image}\" alt=\"#{item.alt}\">#{item.sourceLink}
+</p>" %}{{ code }}
+{% endfor %}</textarea>
+    {% for item in items %}
+        <p>
+            <img src="{{ item.image }}" alt="{{item.alt}}">
+            {{ item.sourceLink|raw }}
+        </p>
+    {% endfor %}
+</div>
+</body>
+</html>

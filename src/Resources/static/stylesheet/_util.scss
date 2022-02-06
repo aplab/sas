@@ -1,0 +1,39 @@
+//@for $i from 0 through 600 {
+//    .w#{$i} {
+//        width: 1px * $i;
+//    }
+//    .wm#{$i} {
+//        min-width: 1px * $i;
+//    }
+//    .wx#{$i} {
+//        max-width: 1px * $i;
+//    }
+//}
+
+.sf-dump {
+  z-index: 10000000 !important;
+}
+
+.sf-toolbarreset {
+  bottom: -13px !important;
+  transition: bottom 0.2s ease 0s;
+}
+
+.sf-toolbarreset:hover {
+  bottom: 0 !important;
+  transition: bottom 0.2s ease 0s;
+}
+
+.bootstrap-datetimepicker-widget * {
+  border: 0 !important;
+}
+
+.cke_reset_all, .cke_reset_all *, .cke_reset_all a, .cke_reset_all textarea {
+  font-family: "Roboto", sans-serif !important;
+}
+
+span.cke_button_icon.cke_button__emojione_icon {
+  background-image: url('https://admin.oytoy.ru/static/ckeditor/plugins/icons.png?t=J6IA') !important;
+  background-position: 0 -11008px !important;
+  background-size: auto !important;
+}

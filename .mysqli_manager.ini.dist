@@ -1,0 +1,30 @@
+[default]
+host="localhost"
+port="3306"
+username="username"
+password="*************"
+socket=""
+dbname="sas"
+persistent="true"
+init[] = SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'
+
+;[secondary]
+;host="localhost"
+;port="3306"
+;username="username"
+;password="pass"
+;socket=""
+;dbname="testdb"
+;persistent="true"
+;init[] = SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'
+;
+;[other]
+;host="localhost"
+;port="3306"
+;username="username"
+;password="pass"
+;socket=""
+;dbname="testdb"
+;persistent="true"
+;init = SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'
+;
