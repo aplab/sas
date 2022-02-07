@@ -231,4 +231,9 @@ class InstanceEditor
     {
         return $this->tab;
     }
+
+    public function getInstanceEditorManager(): InstanceEditorManager
+    {
+        return $this->instanceEditorManager;
+    }
 }

@@ -1,36 +1,14 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.08.2018
- * Time: 17:56
- */
-
-namespace App\Controller;
-
+<?php namespace App\Controller;
 
 use App\Component\DataTableRepresentation\DataTableRepresentation;
 use App\Component\Helper\EntityControllerHelper;
-use App\Component\Toolbar\Exception;
 use App\Entity\Icon;
-use App\Entity\SystemParameter;
-use App\Repository\SystemParameterRepository;
-use App\Resources\SystemParameterDefault;
 use App\Service\FontawesomeIconManager;
-use ReflectionException;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class IconController
- * @package App\Controller
- * @Route("/icon", name="icon_")
- */
+#[Route(path: '/icon', name: 'icon_')]
 class IconController extends ReferenceController
 {
-    /**
-     * @var string
-     */
     protected string $entityClassName = Icon::class;
     protected FontawesomeIconManager $iconManager;
 
@@ -40,13 +18,7 @@ class IconController extends ReferenceController
         $this->iconManager = $iconManager;
     }
 
-    /**
-     * @Route("/", name="list", methods="GET")
-     * @param DataTableRepresentation $data_table_representation
-     * @return Response
-     * @throws Exception
-     * @throws ReflectionException
-     */
+    #[Route(path: '/', name: 'list', methods: ['GET'])]
     public function listItems(DataTableRepresentation $data_table_representation)
     {
         $helper = $this->adminControllerHelper;
@@ -61,9 +33,7 @@ class IconController extends ReferenceController
         return $this->render('data-table/data-table.html.twig', get_defined_vars());
     }
 
-    /**
-     * @Route("/load-defaults", name="load_defaults", methods="POST")
-     */
+    #[Route(path: '/load-defaults', name: 'load_defaults', methods: ['POST'])]
     public function loadDefaults()
     {
         $class = $this->getEntityClassName();

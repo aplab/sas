@@ -13,23 +13,22 @@ use App\Component\ModuleMetadata\ModuleMetadataRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 use ReflectionException;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InstanceEditorManager
 {
     protected ModuleMetadataRepository $moduleMetadataRepository;
-
     protected EntityManagerInterface $entityManagerInterface;
-
     protected ValidatorInterface $validatorInterface;
+    protected RouterInterface $router;
 
-    public function __construct(ModuleMetadataRepository $module_metadata_repository,
-                                EntityManagerInterface   $entity_manager_interface,
-                                ValidatorInterface       $validator_interface)
+    public function __construct(ModuleMetadataRepository $m, EntityManagerInterface $e, ValidatorInterface $v, RouterInterface $r)
     {
-        $this->moduleMetadataRepository = $module_metadata_repository;
-        $this->entityManagerInterface = $entity_manager_interface;
-        $this->validatorInterface = $validator_interface;
+        $this->moduleMetadataRepository = $m;
+        $this->entityManagerInterface = $e;
+        $this->validatorInterface = $v;
+        $this->router = $r;
     }
 
     /**
@@ -54,5 +53,10 @@ class InstanceEditorManager
     public function getValidatorInterface(): ValidatorInterface
     {
         return $this->validatorInterface;
+    }
+
+    public function getRouter(): RouterInterface
+    {
+        return $this->router;
     }
 }

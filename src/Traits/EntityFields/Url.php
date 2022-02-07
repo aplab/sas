@@ -1,38 +1,26 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.01.2019
- * Time: 0:23
- */
+<?php namespace App\Traits\EntityFields;
 
-namespace App\Traits\EntityFields;
-
-
-use Doctrine\ORM\Mapping as ORM;
+use App\Component\DataTableRepresentation\CellType\CellTypeLabel;
+use App\Component\InstanceEditor\FieldType\FieldTypeRouteVariants;
+use App\Component\ModuleMetadata\Cell;
+use App\Component\ModuleMetadata\Property;
+use App\Component\ModuleMetadata\TabDef;
+use App\Component\ModuleMetadata\Widget;
+use Doctrine\ORM\Mapping\Column;
 
 trait Url
 {
-    /**
-     * @ORM\Column(type="string")
-     * @ModuleMetadata\Property(title="Url",
-     *     cell={@ModuleMetadata\Cell(order=2000010, width=200, type="Label")},
-     *     widget={@ModuleMetadata\Widget(order=2000010, tab="General", type="RouteVariants")})
-     */
+    #[Property(title: 'Url')]
+    #[Cell(type: CellTypeLabel::class, order: 2000010, width: 200)]
+    #[Widget(type: FieldTypeRouteVariants::class, order: 2000010, tab: TabDef::GENERAL)]
+    #[Column(type: 'string')]
     protected $url;
 
-    /**
-     * @return mixed
-     */
     public function getUrl()
     {
         return $this->url;
     }
 
-    /**
-     * @param mixed $url
-     * @return $this
-     */
     public function setUrl($url)
     {
         $this->url = trim($url);

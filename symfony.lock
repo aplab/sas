@@ -2,6 +2,9 @@
     "aplab/pst": {
         "version": "dev-master"
     },
+    "bca/fontawesomeiterator": {
+        "version": "1.0.0"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },

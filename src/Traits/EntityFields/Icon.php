@@ -9,33 +9,29 @@
 namespace App\Traits\EntityFields;
 
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Component\DataTableRepresentation\CellType\CellTypeIconVariants;
+use App\Component\DataTableRepresentation\CellType\CellTypeLabel;
+use App\Component\InstanceEditor\FieldType\FieldTypeIconSelector;
+use App\Component\ModuleMetadata\Cell;
+use App\Component\ModuleMetadata\Property;
+use App\Component\ModuleMetadata\TabDef;
+use App\Component\ModuleMetadata\Widget;
+use Doctrine\ORM\Mapping\Column;
 
 trait Icon
 {
-    /**
-     * @ORM\Column(type="string")
-     * @ModuleMetadata\Property(title="Icon",
-     *     cell={
-     *          @ModuleMetadata\Cell(order=2010, width=220, type="Label"),
-     *          @ModuleMetadata\Cell(order=2010, width=80, type="IconVariants", title="Preview")
-     *     },
-     *     widget={@ModuleMetadata\Widget(order=9000000000, tab="General", type="IconSelector")})
-     */
+    #[Property(title: 'Icon')]
+    #[Cell(type: CellTypeLabel::class, order: 2010, width: 220)]
+    #[Cell(type: CellTypeIconVariants::class, order: 2010, width: 80, title: 'Preview')]
+    #[Widget(type: FieldTypeIconSelector::class, order: 9000000000, tab: TabDef::GENERAL)]
+    #[Column(type: 'string')]
     protected $icon;
 
-    /**
-     * @return mixed
-     */
     public function getIcon()
     {
         return $this->icon;
     }
 
-    /**
-     * @param mixed $icon
-     * @return $this
-     */
     public function setIcon($icon)
     {
         $this->icon = $icon;
