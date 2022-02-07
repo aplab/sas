@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.01.2019
- * Time: 0:18
- */
-
-namespace App\Traits\EntityFields;
+<?php namespace App\Traits\EntityFields;
 
 use App\Component\DataTableRepresentation\CellType\CellTypeActive;
 use App\Component\InstanceEditor\FieldType\FieldTypeFlag;
