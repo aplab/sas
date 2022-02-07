@@ -213,6 +213,7 @@ abstract class ReferenceController extends EntityController
             $helper->getHtmlTitle()->prependPart($item->getId());
         }
         $instance_editor = $instance_editor_manager->getInstanceEditor($item);
+        $list_items_route_name = $this->getRouteAnnotation()->getName() . 'list';
         return $this->render('instance-editor/instance-editor.html.twig', get_defined_vars());
     }
 

@@ -9,30 +9,24 @@
 namespace App\Traits\EntityFields;
 
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Component\InstanceEditor\FieldType\FieldTypeTextareaCodemirror;
+use App\Component\ModuleMetadata\Property;
+use App\Component\ModuleMetadata\TabDef;
+use App\Component\ModuleMetadata\Widget;
+use Doctrine\ORM\Mapping\Column;
 
 trait EvalScript
 {
-    /**
-     * @ORM\Column(type="text")
-     * @ModuleMetadata\Property(title="Eval script",
-     *     cell={},
-     *     widget={@ModuleMetadata\Widget(order=20000, tab="Additional", type="TextareaCodemirror")})
-     */
+    #[Property(title: 'Eval script')]
+    #[Widget(type: FieldTypeTextareaCodemirror::class, order: 20000, tab: TabDef::ADDITIONAL)]
+    #[Column(type: 'text')]
     private string $evalScript = '';
 
-    /**
-     * @return mixed
-     */
     public function getEvalScript()
     {
         return $this->evalScript;
     }
 
-    /**
-     * @param mixed $evalScript
-     * @return $this
-     */
     public function setEvalScript($evalScript)
     {
         $this->evalScript = trim($evalScript);
