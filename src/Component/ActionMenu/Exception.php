@@ -1,15 +1,7 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 14.08.2018
- * Time: 14:54
- */
+<?php namespace App\Component\ActionMenu;
 
-namespace App\Component\ActionMenu;
+use Exception as e;
 
-
-class Exception extends \Exception
+class Exception extends e
 {
-
 }

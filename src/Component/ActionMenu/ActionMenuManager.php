@@ -1,52 +1,24 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 22.08.2018
- * Time: 15:19
- */
-
-namespace App\Component\ActionMenu;
+<?php namespace App\Component\ActionMenu;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Class ActionMenuManager
- * @package App\Component\ActionMenu
- */
 class ActionMenuManager
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $router;
+    private UrlGeneratorInterface $router;
 
-    /**
-     * ActionMenuManager constructor.
-     * @param UrlGeneratorInterface $router
-     */
     public function __construct(UrlGeneratorInterface $router)
     {
         $this->router = $router;
         Route::setRouter($router);
     }
 
-    /**
-     * @var string
-     */
     const DEFAULT_INSTANCE_NAME = 'apl-admin-action-menu';
 
-    /**
-     * @var ActionMenu[]
-     */
-    private $instances = [];
+    /** @var ActionMenu[] */
+    private array $instances = [];
 
-    /**
-     * @param string $id
-     * @return ActionMenu
-     * @throws Exception
-     */
-    public function getInstance($id = self::DEFAULT_INSTANCE_NAME)
+    /** @throws Exception */
+    public function getInstance(string $id = self::DEFAULT_INSTANCE_NAME): ActionMenu
     {
         if (!isset($this->instances[$id])) {
             $this->instances[$id] = new ActionMenu($id);
@@ -57,12 +29,9 @@ class ActionMenuManager
         return $this->instances[$id];
     }
 
-    /**
-     * @param ActionMenu $menu
-     * @throws Exception
-     */
     private function preconfigureDefaultInstance(ActionMenu $menu)
     {
+        /** @noinspection SpellCheckingInspection */
         $menu->addItem((new MenuItem('toggle_fullscreen', 'Toggle fullscreen'))
             ->setAction(new Handler('screenfull.toggle();'))
             ->addIcon(new Icon('far fa-window-maximize')));
@@ -71,18 +40,11 @@ class ActionMenuManager
             ->addIcon(new Icon('fas fa-sign-out-alt')));
     }
 
-    /**
-     * @return UrlGeneratorInterface
-     */
     public function getRouter(): UrlGeneratorInterface
     {
         return $this->router;
     }
 
-    /**
-     * @param UrlGeneratorInterface $router
-     * @return ActionMenuManager
-     */
     public function setRouter(UrlGeneratorInterface $router): ActionMenuManager
     {
         $this->router = $router;

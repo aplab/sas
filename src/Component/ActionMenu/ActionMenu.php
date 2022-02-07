@@ -5,7 +5,7 @@ use JsonSerializable;
 
 class ActionMenu implements JsonSerializable
 {
-    /* @var static[] */
+    /** @var static[] */
     protected static array $instances = [];
     protected string $id;
 
@@ -14,7 +14,7 @@ class ActionMenu implements JsonSerializable
         return $this->id;
     }
 
-    /* @throws Exception */
+    /** @throws Exception */
     public function setId(string $id): static
     {
         $this->id = $id;
@@ -22,10 +22,10 @@ class ActionMenu implements JsonSerializable
         return $this;
     }
 
-    /* @var MenuItem[] */
+    /** @var MenuItem[] */
     protected array $items = [];
 
-    /* @return MenuItem[] */
+    /** @return MenuItem[] */
     public function getItems(): array
     {
         return $this->items;
@@ -37,14 +37,14 @@ class ActionMenu implements JsonSerializable
         return $this;
     }
 
-    /* @throws Exception */
+    /** @throws Exception */
     public function __construct(string $id)
     {
         $this->id = $id;
         static::registerInstance($this);
     }
 
-    /* @throws Exception */
+    /** @throws Exception */
     public function __wakeup()
     {
         static::registerInstance($this);
@@ -55,7 +55,7 @@ class ActionMenu implements JsonSerializable
         return static::$instances[$id] ?? null;
     }
 
-    /* @throws Exception */
+    /** @throws Exception */
     private static function registerInstance(ActionMenu $instance)
     {
         $id = $instance->getId();

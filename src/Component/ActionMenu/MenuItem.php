@@ -1,103 +1,57 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 14.08.2018
- * Time: 13:51
- */
+<?php namespace App\Component\ActionMenu;
 
-namespace App\Component\ActionMenu;
-
-
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
 class MenuItem implements JsonSerializable
 {
-    /**
-     * @var static[]
-     */
-    protected static $instances = [];
+    /** @var static[] */
+    protected static array $instances = [];
 
-    /**
-     * @var string
-     */
-    protected $id;
+    protected string $id;
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function setId(string $id)
     {
         $this->id = $id;
         static::registerInstance($this);
     }
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return MenuItem
-     */
     public function setName(string $name): MenuItem
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @var bool
-     */
-    protected $disabled = false;
+    protected bool $disabled = false;
 
-    /**
-     * Additional CSS class
-     * @var string
-     */
-    protected $class;
+    protected string $class;
 
     /**
      * The target attribute specifies where to open the linked document.
      * Variants: _blank|_self|_parent|_top|framename
-     * @var string
+     * @noinspection SpellCheckingInspection
      */
-    protected $target;
+    protected string $target;
 
-    /**
-     * @var Action
-     */
-    protected $action;
+    protected Action $action;
 
-    /**
-     * @var Icon[]
-     */
-    protected $icon = [];
+    /** @var Icon[] */
+    protected array $icon = [];
 
-    /**
-     * MenuItem constructor.
-     * @param string $id
-     * @param string $name
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function __construct(string $id, string $name)
     {
         $this->id = $id;
@@ -105,144 +59,93 @@ class MenuItem implements JsonSerializable
         static::registerInstance($this);
     }
 
-    /**
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function __wakeup()
     {
         static::registerInstance($this);
     }
 
-    /**
-     * @param string $id
-     * @return static|null
-     */
-    public static function getInstance(string $id)
+    public static function getInstance(string $id): ?static
     {
         return static::$instances[$id] ?? null;
     }
 
-    /**
-     * @param self $instance
-     * @throws Exception
-     */
+    /** @throws Exception */
     private static function registerInstance(MenuItem $instance)
     {
         $id = $instance->getId();
         if (array_key_exists($id, static::$instances)) {
-            throw new Exception('Duplicate id: ' . $id);
+            throw new Exception('duplicate id: ' . $id);
         }
         static::$instances[$id] = $instance;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisabled(): bool
     {
         return $this->disabled;
     }
 
-    /**
-     * @param bool $disabled
-     * @return MenuItem
-     */
     public function setDisabled(bool $disabled): MenuItem
     {
-        $this->disabled = (bool)$disabled;
+        $this->disabled = $disabled;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getClass(): ?string
     {
         return $this->class;
     }
 
-    /**
-     * @param string $class
-     * @return MenuItem
-     */
     public function setClass(?string $class): MenuItem
     {
         $this->class = $class;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTarget(): ?string
     {
         return $this->target;
     }
 
-    /**
-     * @param string $target
-     * @return MenuItem
-     */
     public function setTarget(?string $target): MenuItem
     {
         $this->target = $target;
         return $this;
     }
 
-    /**
-     * @return Action
-     */
     public function getAction(): ?Action
     {
         return $this->action;
     }
 
-    /**
-     * @param Action $action
-     * @return MenuItem
-     */
     public function setAction(Action $action): MenuItem
     {
         $this->action = $action;
         return $this;
     }
 
-    /**
-     * @return Icon[]
-     */
+    /** @return Icon[] */
     public function getIcon(): array
     {
         return $this->icon;
     }
 
-    /**
-     * @param Icon $icon
-     * @return MenuItem
-     */
     public function addIcon(Icon $icon): MenuItem
     {
         $this->icon[] = $icon;
         return $this;
     }
 
-    /**
-     * @return $this
-     */
-    public function clearIcon()
+    public function clearIcon(): static
     {
         $this->icon = [];
         return $this;
     }
 
-    /**
-     * Specify data which should be serialized to JSON
-     * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
-     * @return mixed data which can be serialized by <b>json_encode</b>,
-     * which is a value of any type other than a resource.
-     * @since 5.4.0
-     */
-    public function jsonSerialize()
+    #[ArrayShape(['id' => "string", 'name' => "string", 'disabled' => "bool", 'target' => "null|string", 'class' => "null|string", 'icon' => "string[]", 'handler' => "mixed", 'url' => "mixed"])]
+    public function jsonSerialize(): array
     {
+        /** @noinspection DuplicatedCode */
         $data = [
             'id' => $this->getId(),
             'name' => $this->getName(),
