@@ -9,30 +9,27 @@
 namespace App\Traits\EntityFields;
 
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Component\DataTableRepresentation\CellType\CellTypeRtext;
+use App\Component\InstanceEditor\FieldType\FieldTypeText;
+use App\Component\ModuleMetadata\Cell;
+use App\Component\ModuleMetadata\Property;
+use App\Component\ModuleMetadata\TabDef;
+use App\Component\ModuleMetadata\Widget;
+use Doctrine\ORM\Mapping\Column;
 
 trait NumericValue
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ModuleMetadata\Property(title="Numeric value",
-     *     cell={@ModuleMetadata\Cell(order=2000000, width=120, type="Rtext")},
-     *     widget={@ModuleMetadata\Widget(order=2000000, tab="General", type="Text")})
-     */
+    #[Property(title: 'Numeric value')]
+    #[Cell(type: CellTypeRtext::class, order: 2000000, width: 120)]
+    #[Widget(type: FieldTypeText::class, order: 2000000, tab: TabDef::GENERAL)]
+    #[Column(type: 'integer')]
     protected int $numericValue = 0;
 
-    /**
-     * @return mixed
-     */
     public function getNumericValue(): int
     {
         return $this->numericValue ?? 0;
     }
 
-    /**
-     * @param mixed $numericValue
-     * @return $this
-     */
     public function setNumericValue(int $numericValue): self
     {
         $this->numericValue = (int)$numericValue ?? 0;

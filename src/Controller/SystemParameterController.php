@@ -10,36 +10,20 @@ namespace App\Controller;
 
 
 use App\Component\DataTableRepresentation\DataTableRepresentation;
-use App\Component\Toolbar\Exception;
 use App\Entity\SystemParameter;
 use App\Repository\SystemParameterRepository;
 use App\Resources\SystemParameterDefault;
-use ReflectionException;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class SettingController
- * @package App\Controller
- * @Route("/system-parameter", name="system_parameter_")
- */
+#[Route(path: '/system-parameter', name: 'system_parameter_')]
 class SystemParameterController extends ReferenceController
 {
-    /**
-     * @var string
-     */
     protected string $entityClassName = SystemParameter::class;
 
-    /**
-     * @Route("/", name="list", methods="GET")
-     * @param DataTableRepresentation $data_table_representation
-     * @return Response
-     * @throws Exception
-     * @throws ReflectionException
-     */
+    #[Route(path: '/', name: 'list', methods: ['GET'])]
     public function listItems(DataTableRepresentation $data_table_representation)
     {
-        $helper  = $this->adminControllerHelper;
+        $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
         $toolbar->addUrl('New item', $helper->getModulePath('add'), 'fas fa-plus text-success');
         $toolbar->addHandler('Delete selected', 'AplDataTable.getInstance().del();', 'fas fa-times text-danger');
@@ -47,16 +31,14 @@ class SystemParameterController extends ReferenceController
         $toolbar->addHandler('Factory reset', 'AplDataTable.getInstance().resetParametersPlugin(\'reset-parameters\');', 'fas fa-skull-crossbones text-danger');
 
         $data_table = $data_table_representation->getDataTable($this->getEntityClassName());
-        $pager      = $data_table->getPager();
+        $pager = $data_table->getPager();
         return $this->render('data-table/data-table.html.twig', get_defined_vars());
     }
 
-    /**
-     * @Route("/reset-parameters", name="reset_parameters", methods="POST")
-     */
+    #[Route(path: '/reset-parameters', name: 'reset_parameters', methods: ['POST'])]
     public function resetParameters()
     {
-        $class          = $this->getEntityClassName();
+        $class = $this->getEntityClassName();
         $entity_manager = $this->getDoctrine()->getManager();
         /*** @var SystemParameterRepository $repo */
         $repo = $entity_manager->getRepository($class);

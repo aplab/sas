@@ -1,4 +1,4 @@
-
+@use "sass:math";
 .apl-admin-launcher-is-opened .apl-admin-launcher {
   z-index: 300;
 }
@@ -54,10 +54,10 @@
         color: #fff;
         display: block;
         width: $navbar-height;
-        height: $navbar-height / 2;
+        height: math.div($navbar-height, 2);
         overflow: hidden;
         text-align: center;
-        line-height: $navbar-height / 2;
+        line-height: math.div($navbar-height, 2);
         font-size: 8px;
         cursor: pointer;
       }

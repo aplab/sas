@@ -5,7 +5,7 @@ const gulp = require('gulp'),
     uglify = require('gulp-uglify-es').default,
     rename = require('gulp-rename'),
     cssnano = require('gulp-cssnano'),
-    sass = require('gulp-sass'),
+    sass = require('gulp-sass')(require('sass')),
     autoprefixer = require('gulp-autoprefixer'),
     header = require('gulp-header'),
     replace = require('gulp-replace'),
@@ -18,7 +18,7 @@ const gulp = require('gulp'),
     remember = require('gulp-remember'),
     order = require('gulp-order'),
     cached = require('gulp-cached'),
-    touch = require('gulp-touch'),
+    touch = require('gulp-touch-fd'),
     plumber = require('gulp-plumber')
 ;
 var pkg = require('./package.json');
@@ -38,7 +38,7 @@ gulp.task('scss-dev', function () {
     ])
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         .pipe(replace('../fonts/', ''))
         .pipe(autoprefixer())
         .pipe(cssnano({discardUnused: {fontFace: false},zindex: false}))
@@ -54,7 +54,7 @@ gulp.task('scss-login', function () {
     ])
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         .pipe(replace('../fonts/', ''))
         .pipe(autoprefixer())
         .pipe(cssnano({discardUnused: {fontFace: false},zindex: false}))
@@ -104,7 +104,7 @@ gulp.task('css-dev', function () {
     ]/**, {since: gulp.lastRun('css')}*/)
         .pipe(plumber())
         .pipe(sourcemaps.init())
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         // .pipe(replace('../../fonts/OpenSans', 'fonts/OpenSans'))
         .pipe(replace('../../fonts/roboto', 'fonts/roboto'))
         .pipe(replace('../webfonts/fa-', 'webfonts/fa-'))
@@ -121,7 +121,7 @@ gulp.task('scripts-dev', function () {
         [
             './node_modules/jquery/dist/jquery.js',
             './node_modules/jquery-mousewheel/jquery.mousewheel.js',
-            './node_modules/js-cookie/src/js.cookie.js',
+            './node_modules/js-cookie/dist/js.cookie.js',
             './node_modules/popper.js/dist/umd/popper.js',
             './node_modules/bootstrap/dist/js/bootstrap.js',
             './node_modules/screenfull/dist/screenfull.js',

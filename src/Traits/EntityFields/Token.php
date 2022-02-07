@@ -10,13 +10,11 @@ namespace App\Traits\EntityFields;
 
 
 use App\Component\DataTableRepresentation\CellType\CellTypeLabel;
-use App\Component\DataTableRepresentation\CellType\CellTypeRtext;
 use App\Component\InstanceEditor\FieldType\FieldTypeText;
 use App\Component\ModuleMetadata\Cell;
 use App\Component\ModuleMetadata\Property;
 use App\Component\ModuleMetadata\TabDef;
 use App\Component\ModuleMetadata\Widget;
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 
 trait Token

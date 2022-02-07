@@ -1,3 +1,4 @@
+@use "sass:math";
 $header-height: 50px;
 $active-color: #1ca8dd;
 $active-color: #28a745;
@@ -222,7 +223,7 @@ $widththreshold: 640px;
   @media (min-width: $widththreshold) {
     &-label {
       float: left;
-      width: $widththreshold / 12 * 3;
+      width: calc(#{$widththreshold} / 12 * 3);
       padding-top: 7px;
       margin-bottom: 0;
     }
@@ -258,7 +259,7 @@ $widththreshold: 640px;
     &-label-checkbox {
       padding-left: 15px;
       float: left;
-      width: $widththreshold / 12 * 3;
+      width: math.div($widththreshold, 12) * 3;
     }
     &-value-checkbox {
       position: static;
@@ -334,4 +335,3 @@ $widththreshold: 640px;
     resize: vertical;
   }
 }
-

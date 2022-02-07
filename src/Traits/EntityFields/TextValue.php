@@ -9,30 +9,27 @@
 namespace App\Traits\EntityFields;
 
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Component\DataTableRepresentation\CellType\CellTypeTextTooltip;
+use App\Component\InstanceEditor\FieldType\FieldTypeTextarea;
+use App\Component\ModuleMetadata\Cell;
+use App\Component\ModuleMetadata\Property;
+use App\Component\ModuleMetadata\TabDef;
+use App\Component\ModuleMetadata\Widget;
+use Doctrine\ORM\Mapping\Column;
 
 trait TextValue
 {
-    /**
-     * @ORM\Column(type="text")
-     * @ModuleMetadata\Property(title="Text value",
-     *     cell={@ModuleMetadata\Cell(order=3000, width=320, type="TextTooltip")},
-     *     widget={@ModuleMetadata\Widget(order=20000, tab="General", type="Textarea")})
-     */
+    #[Property(title: 'Text value')]
+    #[Cell(type: CellTypeTextTooltip::class, order: 3000, width: 320)]
+    #[Widget(type: FieldTypeTextarea::class, order: 20000, tab: TabDef::GENERAL)]
+    #[Column(type: 'text')]
     private string $textValue = '';
 
-    /**
-     * @return mixed
-     */
     public function getTextValue()
     {
         return $this->textValue;
     }
 
-    /**
-     * @param mixed $textValue
-     * @return $this
-     */
     public function setTextValue($textValue)
     {
         $this->textValue = $textValue;
