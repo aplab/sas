@@ -399,7 +399,6 @@ function AplAdminFileUploader()
         var file = o_input.files[i];
         var form_data = new FormData();
         form_data.append('file', file);
-        form_data.append('index', i);
         process_running++;
         $.ajax({
             url: url,

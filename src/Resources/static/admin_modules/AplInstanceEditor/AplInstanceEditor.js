@@ -30,34 +30,36 @@ function AplInstanceEditor(container) {
         }
     )(this, arguments.callee);
 
-    var prefix = '.apl-instance-editor-';
-    var class_prefix = 'apl-instance-editor-';
+    let prefix = '.apl-instance-editor-';
+    let class_prefix = 'apl-instance-editor-';
 
-    var tabs = container.find(prefix + 'tabs').eq(0);
-    var tabs_wrapper = container.find(prefix + 'tabs-wrapper').eq(0);
-    var head = container.find(prefix + 'head').eq(0);
-    var body = container.find(prefix + 'body').eq(0);
-    var arrow_left = container.find(prefix + 'arrow-left').eq(0);
-    var arrow_right = container.find(prefix + 'arrow-right').eq(0);
+    let tabs = container.find(prefix + 'tabs').eq(0);
+    let tabs_wrapper = container.find(prefix + 'tabs-wrapper').eq(0);
+    let head = container.find(prefix + 'head').eq(0);
+    let body = container.find(prefix + 'body').eq(0);
+    let arrow_left = container.find(prefix + 'arrow-left').eq(0);
+    let arrow_right = container.find(prefix + 'arrow-right').eq(0);
 
-    var tabs_width = [];
-    var tabs_scroll = [];
-    var tabs_width_sum = 0;
-    var local_storage_key = class_prefix + md5(window.location);
-    var default_tab_index = 0;
-    var default_tabs_wrapper_scroll = 0;
+    let tabs_width = [];
+    let tabs_scroll = [];
+    let tabs_width_sum = 0;
+    let local_storage_key = class_prefix + md5(window.location);
+    let default_tab_index = 0;
+    let default_tabs_wrapper_scroll = 0;
+    let base_url = container.data('baseUrl');
+    let primary_key = container.data('primaryKey');
 
-    var loadState = function () {
-        var raw = localStorage.getItem(local_storage_key);
-        var json = JSON.parse(raw);
+    let loadState = function () {
+        let raw = localStorage.getItem(local_storage_key);
+        let json = JSON.parse(raw);
         try {
-            var i = parseInt(json.i);
+            let i = parseInt(json.i);
             if (isNaN(i)) {
                 default_tab_index = 0;
             } else {
                 default_tab_index = i;
             }
-            var s = parseInt(json.s);
+            let s = parseInt(json.s);
             if (isNaN(s)) {
                 default_tabs_wrapper_scroll = 0;
             } else {
@@ -68,7 +70,7 @@ function AplInstanceEditor(container) {
         }
     };
 
-    var saveState = function () {
+    let saveState = function () {
         localStorage.setItem(local_storage_key, JSON.stringify({
             i: default_tab_index,
             s: default_tabs_wrapper_scroll,
@@ -80,14 +82,14 @@ function AplInstanceEditor(container) {
     /**
      * Calculate width
      */
-    var recalcWidth = function () {
+    let recalcWidth = function () {
         if (head.width() < tabs_width_sum) {
             if (tabs_wrapper.scrollLeft() < 1) {
                 arrow_left.hide();
             } else {
                 arrow_left.show();
             }
-            var check = head.width() + tabs_wrapper.scrollLeft();
+            let check = head.width() + tabs_wrapper.scrollLeft();
             if ((tabs_width_sum - check) < 1) {
                 arrow_right.hide();
             } else {
@@ -106,10 +108,10 @@ function AplInstanceEditor(container) {
     /**
      * Initialization
      */
-    var init = function () {
+    let init = function () {
         tabs_wrapper.scrollLeft(default_tabs_wrapper_scroll);
-        var tabs_width_sum_tmp = 0;
-        var found_tab = tabs.find(prefix + 'tab');
+        let tabs_width_sum_tmp = 0;
+        let found_tab = tabs.find(prefix + 'tab');
         if (default_tab_index > found_tab.length) {
             default_tab_index = 0;
         }
@@ -156,10 +158,10 @@ function AplInstanceEditor(container) {
      * Tabs click handler
      */
     tabs.find(prefix + 'tab').click(function () {
-        var all = tabs.find(prefix + 'tab');
+        let all = tabs.find(prefix + 'tab');
         $(this).addClass(class_prefix + 'tab-active');
         all.not(this).removeClass(class_prefix + 'tab-active');
-        var index = all.index(this);
+        let index = all.index(this);
         default_tab_index = index;
         // trying to scroll tabs wrapper so that the selected tab is in the center
         tabs_wrapper.scrollLeft(tabs_scroll[index] - (tabs_wrapper.width() - tabs_width[index]) / 2);
@@ -169,6 +171,9 @@ function AplInstanceEditor(container) {
             .eq(index).addClass(class_prefix + 'panel-active');
         saveState();
         recalcWidth();
+        $('.CodeMirror').each(function(i, el){
+            el.CodeMirror.refresh();
+        });
     });
 
     /**
@@ -193,7 +198,7 @@ function AplInstanceEditor(container) {
 
     // workaround
     (function() {
-        for (var i = 0; i < 100; i += 10) {
+        for (let i = 0; i < 100; i += 10) {
             setTimeout(function () {
                 init();
             }, (100 + i) * i);
@@ -226,10 +231,10 @@ function AplInstanceEditor(container) {
     /**
      * adjust editor size
      */
-    var fitEditors = function () {
-        var height = body.height();
-        var width = body.width();
-        for (var o in CKEDITOR.instances) {
+    let fitEditors = function () {
+        let height = body.height();
+        let width = body.width();
+        for (let o in CKEDITOR.instances) {
             if (CKEDITOR.instances.hasOwnProperty(o)) {
                 CKEDITOR.instances[o].resize(width, height);
             }
@@ -244,7 +249,7 @@ function AplInstanceEditor(container) {
     };
     
     this.fitEditorsSlow = function () {
-        for (var i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             setTimeout(function () {
                 fitEditors();
             }, (100 + i) * i);
@@ -256,13 +261,13 @@ function AplInstanceEditor(container) {
      */
     if (typeof(CKEDITOR) != 'undefined') {
         CKEDITOR.on('instanceReady', function (ev) {
-            var editor = ev.editor;
-            var height = body.height();
-            var width = body.width();
+            let editor = ev.editor;
+            let height = body.height();
+            let width = body.width();
             editor.resize(width, height);
             editor.on('afterCommandExec', function () {
-                var width = body.width();
-                var height = body.height();
+                let width = body.width();
+                let height = body.height();
                 editor.resize(width, height);
             });
             $(window).resize(function () {
@@ -281,10 +286,10 @@ function AplInstanceEditor(container) {
      *
      * @returns {boolean}
      */
-    var is_small = function () {
-        var width = $(window).width();
-        var height = $(window).height();
-        var threshold = 768;
+    let is_small = function () {
+        let width = $(window).width();
+        let height = $(window).height();
+        let threshold = 768;
         return width <= threshold && height <= threshold;
     };
     /**
@@ -292,8 +297,8 @@ function AplInstanceEditor(container) {
      *
      * @returns {{uiColor: string, removePlugins: string, resize_enabled: boolean, height: number, removeButtons: string}}
      */
-    var editor_config = function () {
-        var config = {
+    let editor_config = function () {
+        let config = {
             uiColor: '#ffffff',
             // removePlugins: 'about,maximize',
             removePlugins: 'maximize',
@@ -368,17 +373,48 @@ function AplInstanceEditor(container) {
         return config;
     };
 
+    this.dropItem = function () {
+        let c = confirm('Do you really want to delete item: ' + JSON.stringify(primary_key) + '?');
+        if (!c) {
+            return false;
+        }
+        c = confirm('Are you sure?');
+        if (!c) {
+            return false;
+        }
+        let post_data = {};
+        let pk = primary_key;
+        for (let p in pk) {
+            if (undefined === post_data[p]) {
+                post_data[p] = [];
+            }
+            post_data[p].push(pk[p]);
+        }
+        let f = $('<form method="post">');
+        f.prop({
+            action: (base_url + '/del').replace(/\/{2,}/, '/')
+        });
+        for (let p in post_data) {
+            let input = $('<input type="hidden" name="' + p + '">')
+                .val(JSON.stringify(post_data[p]));
+            f.append(input);
+        }
+        container.append(f);
+        f.submit();
+    }
+
     /**
      * Save handler
      */
     this.save = function () {
-        var form = body.children('form').eq(0);
-        var oform = form.get(0);
-        var data = new FormData(oform);
+        let form = body.children('form').eq(0);
+        let oform = form.get(0);
+        let data = new FormData(oform);
 
-        var entries = data.entries();
+        let entries = data.entries();
+        let next;
         while ((next = entries.next()) && next.done === false) {
-            var pair = next.value;
+            let pair = next.value;
             //console.log(pair);
         }
         form.submit();
@@ -388,7 +424,7 @@ function AplInstanceEditor(container) {
      * Save and exit handler
      */
     this.saveAndExit = function () {
-        var e = document.createElement('input');
+        let e = document.createElement('input');
         $(e).attr({
             'type': 'hidden',
             'name': 'saveAndExit',
@@ -402,7 +438,7 @@ function AplInstanceEditor(container) {
      * Save and add new handler
      */
     this.saveAndAdd = function () {
-        var e = document.createElement('input');
+        let e = document.createElement('input');
         $(e).attr({
             'type': 'hidden',
             'name': 'saveAndAdd',
@@ -416,7 +452,7 @@ function AplInstanceEditor(container) {
      * Save as new handler
      */
     this.saveAsNew = function () {
-        var e = document.createElement('input');
+        let e = document.createElement('input');
         $(e).attr({
             'type': 'hidden',
             'name': 'saveAsNew',
@@ -475,11 +511,11 @@ function AplInstanceEditor(container) {
      */
     body.find('.apl-instance-editor-element-image').each(function (i, o) {
         o = $(o);
-        var input = o.find('input').eq(0);
-        var previewer = o.find('.preview');
-        var btn_upload = o.find('.fa-upload').closest('button');
+        let input = o.find('input').eq(0);
+        let previewer = o.find('.preview');
+        let btn_upload = o.find('.fa-upload').closest('button');
         btn_upload.click(function () {
-            var uploader = AplAdminFileUploader.getInstance();
+            let uploader = AplAdminFileUploader.getInstance();
             uploader.setTitle('Upload images only');
             uploader.setUrl('/xhr/uploadImage/');
             uploader.done = function () {
@@ -488,7 +524,7 @@ function AplInstanceEditor(container) {
             };
             uploader.showWindow();
             AplAdminImageHistory.getInstance().beforeDone = function () {
-                var items = AplAdminImageHistory.getInstance().getSelectedItems();
+                let items = AplAdminImageHistory.getInstance().getSelectedItems();
                 if (!items.length) {
                     return;
                 }
@@ -498,11 +534,11 @@ function AplInstanceEditor(container) {
                 });
             };
         });
-        var btn_history = o.find('.fa-history').closest('button');
+        let btn_history = o.find('.fa-history').closest('button');
         btn_history.click(function () {
             AplAdminImageHistory.getInstance().showWindow();
             AplAdminImageHistory.getInstance().beforeDone = function () {
-                var items = AplAdminImageHistory.getInstance().getSelectedItems();
+                let items = AplAdminImageHistory.getInstance().getSelectedItems();
                 if (!items.length) {
                     return;
                 }
@@ -512,13 +548,13 @@ function AplInstanceEditor(container) {
                 });
             };
         });
-        var btn_favorites = o.find('.fa-star').closest('button');
+        let btn_favorites = o.find('.fa-star').closest('button');
         btn_favorites.click(function () {
             AplAdminImageHistory.getInstance().showWindow({
                 favorites: true
             });
             AplAdminImageHistory.getInstance().beforeDone = function () {
-                var items = AplAdminImageHistory.getInstance().getSelectedItems();
+                let items = AplAdminImageHistory.getInstance().getSelectedItems();
                 if (!items.length) {
                     return;
                 }
@@ -528,7 +564,7 @@ function AplInstanceEditor(container) {
                 });
             };
         });
-        var btn_broom = o.find('.fa-broom').closest('button');
+        let btn_broom = o.find('.fa-broom').closest('button');
         btn_broom.click(function () {
             input.val('');
             previewer.css({
@@ -539,7 +575,7 @@ function AplInstanceEditor(container) {
         previewer.css({
             backgroundImage: 'url("' + input.val() + '")'
         });
-        var previewer_timeout;
+        let previewer_timeout;
         input.change(function () {
             if (previewer_timeout) {
                 clearTimeout(previewer_timeout);
@@ -550,5 +586,38 @@ function AplInstanceEditor(container) {
                 });
             }, 400);
         });
+    });
+
+    $('select.selectizejs').selectize();
+    $('select.selectizejs-iconselector').selectize({
+        render:{
+            option: function (item, escape) {
+                return '<div class="option"><i class="' + item.value + '"></i>' + escape(item.text) + '</div>';
+            },
+            item: function (item, escape) {
+                return '<div class="item"><i class="' + item.value + '"></i>' + escape(item.text) + '</div>';
+            }
+        }
+    });
+    $('select.selectizejs-routevariants').selectize({
+        create: true,
+        sortField: 'text',
+        render: {
+            option: function (item, escape) {
+                return '<div class="option">' + escape(item.text) + '<small class="text-muted pl-2">' + escape(item.value) + '</small></div>';
+            },
+            item: function (item, escape) {
+                return '<div class="item">' + escape(item.text) + '</div>';
+            }
+        },
+        onChange: function () {
+            let value = this.getValue();
+            this.clear(true);
+            let selector = this.$input;
+            let text = selector.parent().parent().find('.selectizejs-routevariants-text');
+            text.val(value);
+            console.log(selector.parent());
+            selector.parent().collapse('hide');
+        }
     });
 }

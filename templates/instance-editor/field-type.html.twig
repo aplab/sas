@@ -1,7 +1,7 @@
 {% block datetime %}
     <div class="{{ prefix }}-element">
         <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">
-            {{ field.title|trans }}
+            {{ field.title }}
         </label>
         {% set tmp = attribute(item, field.propertyName) %}
         {% if tmp is null %}
@@ -19,7 +19,7 @@
 {% endblock %}
 {% block label %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value {{ prefix }}-value-label"
              id="{{ prefix }}-element-{{ field.type.uniqueId }}">
             {{ field.type.value }}
@@ -28,7 +28,7 @@
 {% endblock %}
 {% block id %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         {% set tmp = attribute(item, field.propertyName) %}
         {% if tmp is null %}
             <div class="{{ prefix }}-value {{ prefix }}-value-label"
@@ -45,7 +45,7 @@
 {% endblock %}
 {% block text %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <input type="text" class="form-control" placeholder=""
                    autocorrect="off" autocapitalize="none" autocomplete="off"
@@ -57,7 +57,7 @@
 {% endblock %}
 {% block password %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <input type="password" class="form-control" placeholder="********"
                    autocorrect="off" autocapitalize="none" autocomplete="new-password"
@@ -69,7 +69,7 @@
 {% endblock %}
 {% block textarea %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <textarea class="form-control" rows="3"
                       name="{{ form_name }}[{{ field.propertyName }}]"
@@ -79,7 +79,7 @@
 {% endblock %}
 {% block textareadouble %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <textarea class="form-control" rows="6"
                       name="{{ form_name }}[{{ field.propertyName }}]"
@@ -89,7 +89,7 @@
 {% endblock %}
 {% block datetimepicker %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <div class="input-group date aplab-admin-field-type-datetimepicker"
                  id="{{ prefix }}-element-{{ field.type.uniqueId }}-wrapper"
@@ -117,7 +117,7 @@
 {% endblock %}
 {% block entity %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <select class="form-control"
                     name="{{ form_name }}[{{ field.propertyName }}]"
@@ -130,11 +130,11 @@
         </div>
     </div>
 {% endblock %}
-{% block entityid %}
+{% block entityselectize %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
-            <select class="form-control"
+            <select class="form-control selectizejs"
                     name="{{ form_name }}[{{ field.propertyName }}]"
                     id="{{ prefix }}-element-{{ field.type.uniqueId }}">
                 <option value="0"></option>
@@ -149,7 +149,7 @@
 {% endblock %}
 {% block image %}
     <div class="{{ prefix }}-element {{ prefix }}-element-image">
-        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -174,13 +174,16 @@
                     </button>
                 </span>
             </div>
-            <div class="img-thumbnail"><div class="preview"></div></div>
+            <div class="img-thumbnail">
+                <div class="preview"></div>
+            </div>
         </div>
     </div>
 {% endblock %}
 {% block flag %}
     <div class="{{ prefix }}-element">
-        <label class="{{ prefix }}-label-checkbox" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title|trans }}</label>
+        <label class="{{ prefix }}-label-checkbox"
+               for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
         <div class="{{ prefix }}-value-checkbox">
             <input type="hidden" name="{{ form_name }}[{{ field.propertyName }}]" value="0">
             <div class="custom-control custom-checkbox">
@@ -191,11 +194,79 @@
                 <label class="custom-control-label"
                        for="{{ prefix }}-element-{{ field.type.uniqueId }}"></label>
             </div>
-            {#<input type="checkbox"#}
-                   {#{{ field.type.value ?: 'checked="checked"' }}#}
-                   {#name="{{ form_name }}[{{ field.propertyName }}]"#}
-                   {#id="{{ prefix }}-element-{{ field.type.uniqueId }}"#}
-                   {#value="1"><label for="{{ prefix }}-element-{{ field.type.uniqueId }}"></label>#}
+            {# <input type="checkbox" #}
+            {# {{ field.type.value ?: 'checked="checked"' }} #}
+            {# name="{{ form_name }}[{{ field.propertyName }}]" #}
+            {# id="{{ prefix }}-element-{{ field.type.uniqueId }}" #}
+            {# value="1"><label for="{{ prefix }}-element-{{ field.type.uniqueId }}"></label> #}
+        </div>
+    </div>
+{% endblock %}
+{% block iconselector %}
+    <div class="{{ prefix }}-element">
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
+        <div class="{{ prefix }}-value">
+            <select class="form-control selectizejs-iconselector"
+                    name="{{ form_name }}[{{ field.propertyName }}]"
+                    id="{{ prefix }}-element-{{ field.type.uniqueId }}">
+                <option value=""></option>
+                {% for option in field.type.optionsDataList %}
+                    <option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.text }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+{% endblock %}
+{% block routevariants %}
+    <div class="{{ prefix }}-element">
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
+        <div class="{{ prefix }}-value">
+            <div class="input-group">
+                <input type="text" class="form-control selectizejs-routevariants-text" placeholder=""
+                       autocorrect="off" autocapitalize="none" autocomplete="off"
+                       name="{{ form_name }}[{{ field.propertyName }}]"
+                       id="{{ prefix }}-element-{{ field.type.uniqueId }}"
+                       value="{{ field.type.value }}">
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary btn-light" type="button"
+                            title="show available routes"
+                            data-toggle="collapse"
+                            data-target="#{{ prefix }}-element-{{ field.type.uniqueId }}-collapse"
+                            aria-expanded="false">
+                        <span class="fas fa-route"></span>
+                    </button>
+
+                </span>
+            </div>
+            <div class="collapse mt-3"
+                 id="{{ prefix }}-element-{{ field.type.uniqueId }}-collapse">
+                <select class="form-control selectizejs-routevariants"
+                        aria-describedby="{{ prefix }}-element-{{ field.type.uniqueId }}-help">
+                    <option value=""></option>
+                    {% for option in field.type.optionsDataList %}
+                        <option value="{{ option.value }}"{{ option.selected ? ' selected' }}>{{ option.text }}</option>
+                    {% endfor %}
+                </select>
+                <small id="{{ prefix }}-element-{{ field.type.uniqueId }}-help"
+                       class="form-text d-block text-danger">Don't forget to replace the {...} placeholder with a real
+                    value!</small>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block textareacodemirror %}
+    <div class="{{ prefix }}-element">
+        <label class="{{ prefix }}-label" for="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.title }}</label>
+        <div class="{{ prefix }}-value">
+            <textarea class="form-control" rows="6"
+                      name="{{ form_name }}[{{ field.propertyName }}]"
+                      id="{{ prefix }}-element-{{ field.type.uniqueId }}">{{ field.type.value }}</textarea>
+            <script async>
+                window.onload = function () {
+                    CodeMirror.fromTextArea(document.getElementById('{{ prefix }}-element-{{ field.type.uniqueId }}'), {
+                        lineNumbers: true
+                    })}
+            </script>
         </div>
     </div>
 {% endblock %}

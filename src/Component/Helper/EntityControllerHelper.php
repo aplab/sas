@@ -12,13 +12,11 @@ namespace App\Component\Helper;
 use App\Component\ActionMenu\ActionMenu;
 use App\Component\ActionMenu\ActionMenuManager;
 use App\Component\ActionMenu\Exception;
-use App\Component\Menu\Menu;
-use App\Component\Menu\MenuManager;
+use App\Component\Launcher\Launcher;
 use App\Component\Toolbar\Toolbar;
 use App\Component\Toolbar\ToolbarManager;
 use App\Util\HtmlTitle;
 use Doctrine\Common\Annotations\Reader;
-use Psr\SimpleCache\InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,44 +24,17 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class EntityControllerHelper
 {
-    /**
-     * @var MenuManager
-     */
-    protected $menuManager;
-
-    /**
-     * @var ActionMenuManager
-     */
-    protected $actionMenuManager;
-
-    /**
-     * @var ToolbarManager
-     */
-    protected $toolbarManager;
-
-    /**
-     * @var RequestStack
-     */
-    protected $requestStack;
-
-    /**
-     * @var Reader
-     */
-    protected $annotationsReader;
-
-    /**
-     * @var HtmlTitle
-     */
-    protected $htmlTitle;
-
-    /**
-     * @var SessionInterface
-     */
-    protected $session;
+    protected Launcher $launcher;
+    protected ActionMenuManager $actionMenuManager;
+    protected ToolbarManager $toolbarManager;
+    protected RequestStack $requestStack;
+    protected Reader $annotationsReader;
+    protected HtmlTitle $htmlTitle;
+    protected SessionInterface $session;
 
     /**
      * AdminControllerHelper constructor.
-     * @param MenuManager $menuManager
+     * @param Launcher $launcher
      * @param ActionMenuManager $actionMenuManager
      * @param ToolbarManager $toolbarManager
      * @param RequestStack $requestStack
@@ -71,7 +42,7 @@ class EntityControllerHelper
      * @param SessionInterface $session
      * @param HtmlTitle $html_title
      */
-    public function __construct(MenuManager $menuManager,
+    public function __construct(Launcher $launcher,
                                 ActionMenuManager $actionMenuManager,
                                 ToolbarManager $toolbarManager,
                                 RequestStack $requestStack,
@@ -80,20 +51,20 @@ class EntityControllerHelper
                                 HtmlTitle $html_title)
     {
         $this->annotationsReader = $annotations_reader;
-        $this->menuManager       = $menuManager;
+        $this->launcher = $launcher;
         $this->actionMenuManager = $actionMenuManager;
-        $this->toolbarManager    = $toolbarManager;
-        $this->requestStack      = $requestStack;
-        $this->session           = $session;
-        $this->htmlTitle         = $html_title;
+        $this->toolbarManager = $toolbarManager;
+        $this->requestStack = $requestStack;
+        $this->session = $session;
+        $this->htmlTitle = $html_title;
     }
 
     /**
-     * @return MenuManager
+     * @return Launcher
      */
-    public function getMenuManager(): MenuManager
+    public function getLauncher(): Launcher
     {
-        return $this->menuManager;
+        return $this->launcher;
     }
 
     /**
@@ -110,20 +81,6 @@ class EntityControllerHelper
     public function getToolbarManager(): ToolbarManager
     {
         return $this->toolbarManager;
-    }
-
-    /**
-     * @param null $id
-     * @return Menu
-     * @throws \App\Component\Menu\Exception
-     * @throws InvalidArgumentException
-     */
-    public function getMenu($id = null)
-    {
-        if (is_null($id)) {
-            return $this->menuManager->getMenu();
-        }
-        return $this->menuManager->getMenu($id);
     }
 
     /**
@@ -152,9 +109,6 @@ class EntityControllerHelper
         return $this->actionMenuManager->getInstance($id);
     }
 
-    /**
-     * @return RequestStack
-     */
     public function getRequestStack(): RequestStack
     {
         return $this->requestStack;

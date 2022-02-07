@@ -1,0 +1,70 @@
+<div class="apl-admin-launcher">
+    {% set default_name = '<span class="text-muted">untitled</span>' %}
+    <div class="apl-admin-launcher-header">
+        <div id="apl-admin-launcher-close" class="apl-admin-launcher-close" title="Close [esc]">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
+    <div class="apl-admin-launcher-body owl-carousel owl-theme" id="apl-admin-launcher-body">
+        {% for page in data %}
+            <div class="apl-admin-launcher-page d-flex align-items-center item">
+                <div class="apl-admin-launcher-items flex-grow-1">
+                    {% for i in 0..23 %}
+                        {% if page[i] is defined %}
+                            {% if page[i].url is empty %}
+                                <div class="apl-admin-launcher-item" id="apl-admin-launcher-item-{{ page[i].id }}">
+                                    <div class="apl-admin-launcher-item-icon">
+                                        <i class="{{ page[i].icon|default('fas fa-question text-muted') }} w-100 text-center"></i>
+                                    </div>
+                                    <div class="apl-admin-launcher-item-label">
+                                        {% if page[i].name is empty %}
+                                            {{ default_name|raw }}
+                                        {% else %}
+                                            {{ page[i].name }}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <a class="apl-admin-launcher-item" href="{{ page[i].url }}"
+                                   id="apl-admin-launcher-item-{{ page[i].id }}">
+                                    <div class="apl-admin-launcher-item-icon">
+                                        <i class="{{ page[i].icon|default('fas fa-question text-muted') }} w-100 text-center"></i>
+                                    </div>
+                                    <div class="apl-admin-launcher-item-label">
+                                        {% if page[i].name is empty %}
+                                            {{ default_name|raw }}
+                                        {% else %}
+                                            {{ page[i].name }}
+                                        {% endif %}
+                                    </div>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <div class="apl-admin-launcher-item"></div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="apl-admin-launcher-footer d-flex align-items-center">
+        <div class="apl-admin-launcher-footer-nav d-flex justify-content-center owl-dots" id="carousel-custom-dots">
+            {% for page in data %}
+                <i class="fas fa-circle owl-dot"></i>
+            {% endfor %}
+        </div>
+    </div>
+    <script async>
+        window.onload = function () {
+            {% for page in data %}
+            {% for i in 0..23 %}
+            {% if page[i] is defined and page[i].evalScript %}
+            $('#apl-admin-launcher-item-{{ page[i].id }}').click(function () {
+                {{ page[i].evalScript|raw }}
+            });
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        };
+    </script>
+</div>

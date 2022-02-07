@@ -6,9 +6,6 @@
 {% block javascripts %}
     <script src="{{ asset('static/build.js') }}"></script>
     {{ render(controller(
-        'App\\Controller\\MenuController::mainMenu'
-    )) }}
-    {{ render(controller(
         'App\\Controller\\MenuController::actionMenu'
     )) }}
     {{ render(controller(
@@ -24,25 +21,15 @@
 {% endblock %}
 {% block body_classes %}{{ UiDataTransmitter.getBodyClasses() }}{% endblock %}
 {% block body %}
-    <div id="aplab-admin-sidebar">
-        {% block sidebar %}
-            <div id="aplab-admin-sidebar-buttons">
-                <button id="aplab-admin-sidebar-button-close">
-                    <i class="fas fa-times"></i>
-                </button>
-                <button id="aplab-admin-sidebar-button-toggle-pin">
-                    <i class="fas fa-thumbtack"></i>
-                </button>
-            </div>
-        {% endblock %}
-        <div id="apl-admin-main-menu-wrapper"></div>
-    </div>
+    {{ render(controller(
+        'App\\Controller\\LauncherController::launcher'
+    )) }}
     <div id="aplab-admin-content">
         {% block content %}
             <div id="aplab-admin-navbar">
                 {% block navbar %}
-                    <button id="aplab-admin-open-sidebar">
-                        <i class="fas fa-bars"></i>
+                    <button id="aplab-admin-open-launcher" title="Open [ctrl]+[alt]+[~]">
+                        <i class="fas fa-th"></i>
                     </button>
                     <button id="aplab-admin-open-action-menu">
                         <i class="fas fa-ellipsis-v"></i>

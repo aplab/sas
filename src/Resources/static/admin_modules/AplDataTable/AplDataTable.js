@@ -1,5 +1,4 @@
 'use strict';
-
 /**
  * Created by polyanin on 17.11.2016.
  */
@@ -471,52 +470,6 @@ function AplDataTable(container) {
         );
     });
 
-    this.batchAddFilesPlugin = function () {
-        let uploader = AplAdminFileUploader.getInstance();
-        uploader.setTitle('Upload files');
-        uploader.setUrl('/xhr/uploadFile/');
-        uploader.done = function () {
-            uploader.purgeWindow();
-            location.reload();
-        };
-        uploader.showWindow();
-    };
-
-    this.galleryBuilderPlugin = function () {
-        let uploader = AplAdminFileUploader.getInstance();
-        uploader.setTitle('Gallery builder');
-        uploader.setUrl('/xhr/galleryBuilder/');
-        uploader.done = function () {
-            uploader.purgeWindow();
-            location.reload();
-        };
-        uploader.showWindow();
-    };
-
-    this.galleryBuilderMassFillAltPlugin = function () {
-        let user_input = prompt('Enter alt field for mass update', 'Кукла ручной работы, Игрушка ручной работы, Handmade doll, Handmade toy, Кукла своими руками, Игрушка своими руками');
-        if (null === user_input) {
-            return;
-        }
-        let form = document.createElement('form');
-        let oForm = $(form);
-        oForm.attr({
-            method: 'POST',
-            action: '/gallery-builder/alt-all',
-        });
-
-        let e = document.createElement('input');
-        $(e).attr({
-            type: 'hidden',
-            name: 'alt',
-            value: user_input,
-        });
-
-        oForm.append(e);
-        body.append(oForm);
-        oForm.submit();
-    };
-
     /**
      * Save handler
      */
@@ -542,5 +495,35 @@ function AplDataTable(container) {
         oForm.append(e);
         body.append(oForm);
         oForm.submit();
+    };
+
+    this.batchAddFilesPlugin = function () {
+        let uploader = AplAdminFileUploader.getInstance();
+        uploader.setTitle('Upload files');
+        uploader.setUrl('/xhr/uploadFile/');
+        uploader.done = function () {
+            uploader.purgeWindow();
+            location.reload();
+        };
+        uploader.showWindow();
+    };
+
+    this.resetParametersPlugin = function (url) {
+        AplabAdmin.collapseActionMenu();
+        if (!confirm('Do you really want to reset all parameter to default? This cannot be undone!')) {
+            return;
+        }
+        let post_data = {};
+        let f = $('<form method="post">');
+        f.prop({
+            action: (base_url + '/' + url).replace(/\/{2,}/, '/')
+        });
+        for (let p in post_data) {
+            let input = $('<input type="hidden" name="' + p + '">')
+                .val(JSON.stringify(post_data[p]));
+            f.append(input);
+        }
+        container.append(f);
+        f.submit();
     };
 }

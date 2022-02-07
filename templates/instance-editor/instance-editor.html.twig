@@ -12,13 +12,13 @@
 {% block workarea %}
     {% set prefix = 'apl-instance-editor' %}
     {% set form_name = 'apl-instance-editor' %}
-    <div class="{{ prefix }}" id="{{ prefix }}">
+    <div class="{{ prefix }}" id="{{ prefix }}" data-base-url="{{ path(list_items_route_name) }}" data-primary-key="{{ instance_editor.helperIdentifierJson() }}">
         <div class="{{ prefix }}-head">
             <div class="{{ prefix }}-tabs-wrapper">
                 <div class="{{ prefix }}-tabs">
                     {% for tab in instance_editor.tab %}
                     <div class="{{ prefix }}-tab">
-                        {{ tab.name|trans }}
+                        {{ tab.name }}
                     </div>
                     {% endfor %}
                 </div>

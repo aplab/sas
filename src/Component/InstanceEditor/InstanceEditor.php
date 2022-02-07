@@ -22,7 +22,7 @@ class InstanceEditor
 {
     const REQUEST_KEY = 'apl-instance-editor';
     protected object $entity;
-    protected InstatceEditorManager $instanceEditorManager;
+    protected InstanceEditorManager $instanceEditorManager;
     protected ModuleMetadataRepository $moduleMetadataRepository;
     protected EntityManagerInterface $entityManagerInterface;
     protected ModuleMetadata $moduleMetadata;
@@ -39,13 +39,42 @@ class InstanceEditor
     protected array $tab;
 
     /**
+     * READ-ONLY: The field names of all fields that are part of the identifier/primary key
+     * of the mapped entity class.
+     *
+     * @var array
+     */
+    protected $identifier;
+
+    /**
+     * @return array
+     */
+    public function getIdentifier(): array
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @return false|string
+     */
+    public function helperIdentifierJson()
+    {
+        $data = [];
+        foreach ($this->identifier as $i) {
+            $getter = 'get' . ucfirst($i);
+            $data[$i] = $this->entity->$getter();
+        }
+        return json_encode($data);
+    }
+
+    /**
      * InstanceEditor constructor.
      * @param object $entity
-     * @param InstatceEditorManager $instance_editor_manager
+     * @param InstanceEditorManager $instance_editor_manager
      * @throws InvalidArgumentException
      * @throws ReflectionException|\Psr\Cache\InvalidArgumentException
      */
-    public function __construct(object $entity, InstatceEditorManager $instance_editor_manager)
+    public function __construct(object $entity, InstanceEditorManager $instance_editor_manager)
     {
         $this->entity = $entity;
         $this->instanceEditorManager = $instance_editor_manager;
@@ -53,6 +82,7 @@ class InstanceEditor
         $this->entityManagerInterface = $instance_editor_manager->getEntityManagerInterface();
         $this->moduleMetadata = $this->moduleMetadataRepository->getMetadata($this->entity);
         $this->classMetadata = $this->entityManagerInterface->getClassMetadata($this->moduleMetadata->getClassName());
+        $this->identifier = $this->classMetadata->identifier;
         $this->configure();
     }
 

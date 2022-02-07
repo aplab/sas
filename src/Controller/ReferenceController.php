@@ -10,7 +10,7 @@ namespace App\Controller;
 
 
 use App\Component\DataTableRepresentation\DataTableRepresentation;
-use App\Component\InstanceEditor\InstatceEditorManager;
+use App\Component\InstanceEditor\InstanceEditorManager;
 use App\Component\Toolbar\Exception;
 use Psr\SimpleCache\InvalidArgumentException;
 use ReflectionException;
@@ -137,14 +137,14 @@ abstract class ReferenceController extends EntityController
     }
 
     /**
-     * @param InstatceEditorManager $instatceEditorManager
+     * @param InstanceEditorManager $instanceEditorManager
      * @return Response
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     #[Route(path: '/add', name: 'add', methods: ['GET'])]
-    public function addItem(InstatceEditorManager $instatceEditorManager)
+    public function addItem(InstanceEditorManager $instanceEditorManager)
     {
         $helper  = $this->adminControllerHelper;
         $helper->getHtmlTitle()->prependPart(__FUNCTION__);
@@ -155,23 +155,24 @@ abstract class ReferenceController extends EntityController
         $toolbar->addUrl('Exit without saving', $helper->getModulePath(), 'fas fa-sign-out-alt text-danger flip-h');
         $entity_class_name = $this->getEntityClassName();
         $item              = new $entity_class_name;
-        $instance_editor   = $instatceEditorManager->getInstanceEditor($item);
+        $instance_editor   = $instanceEditorManager->getInstanceEditor($item);
+        $list_items_route_name = $this->getRouteAnnotation()->getName() . 'list';
         return $this->render('instance-editor/instance-editor.html.twig', get_defined_vars());
     }
 
     /**
-     * @param InstatceEditorManager $instatceEditorManager
+     * @param InstanceEditorManager $instanceEditorManager
      * @param Request $request
      * @return RedirectResponse
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     #[Route(path: '/add', name: 'create', methods: ['POST'])]
-    public function createItem(InstatceEditorManager $instatceEditorManager, Request $request)
+    public function createItem(InstanceEditorManager $instanceEditorManager, Request $request)
     {
         $entity_class_name = $this->getEntityClassName();
         $item              = new $entity_class_name;
-        $instance_editor   = $instatceEditorManager->getInstanceEditor($item);
+        $instance_editor   = $instanceEditorManager->getInstanceEditor($item);
         try {
             $instance_editor->handleRequest($request);
         } catch (Throwable $exception) {
@@ -188,14 +189,14 @@ abstract class ReferenceController extends EntityController
 
     /**
      * @param $id
-     * @param InstatceEditorManager $instance_editor_manager
+     * @param InstanceEditorManager $instance_editor_manager
      * @return Response
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     #[Route(path: '/{id}', name: 'edit', methods: ['GET'])]
-    public function editItem($id, InstatceEditorManager $instance_editor_manager)
+    public function editItem($id, InstanceEditorManager $instance_editor_manager)
     {
         $helper  = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
@@ -217,14 +218,14 @@ abstract class ReferenceController extends EntityController
 
     /**
      * @param $id
-     * @param InstatceEditorManager $instance_editor_manager
+     * @param InstanceEditorManager $instance_editor_manager
      * @param Request $request
      * @return RedirectResponse
      * @throws InvalidArgumentException
      * @throws ReflectionException
      */
     #[Route(path: '/{id}', name: 'update', methods: ['POST'])]
-    public function updateItem($id, InstatceEditorManager $instance_editor_manager, Request $request)
+    public function updateItem($id, InstanceEditorManager $instance_editor_manager, Request $request)
     {
         $entity_class_name = $this->getEntityClassName();
         $item              = $instance_editor_manager->getEntityManagerInterface()->find($entity_class_name, $id);

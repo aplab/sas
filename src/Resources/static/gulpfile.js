@@ -27,7 +27,6 @@ var dest_dir = '../../../public/static';
 gulp.task('scss-dev', function () {
     return gulp.src([
         './stylesheet/main.scss',
-        './admin_modules/AplAdminMenu/AplAdminMenu.scss',
         './admin_modules/AplDataTable/AplDataTable.scss',
         './admin_modules/AplInstanceEditor/AplInstanceEditor.scss',
         './admin_modules/AplActionMenu/AplActionMenu.scss',
@@ -98,7 +97,10 @@ gulp.task('css-dev', function () {
         './node_modules/roboto-fontface/css/roboto/roboto-fontface.css',
         './node_modules/bootstrap/dist/css/bootstrap.css',
         './node_modules/@fortawesome/fontawesome-free/css/all.css',
-        './node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css'
+        './node_modules/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css',
+        './node_modules/selectize/dist/css/selectize.bootstrap3.css',
+        './OwlCarousel2-2.3.4/dist/assets/owl.carousel.css',
+        './node_modules/codemirror/lib/codemirror.css',
     ]/**, {since: gulp.lastRun('css')}*/)
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -128,7 +130,10 @@ gulp.task('scripts-dev', function () {
             './node_modules/blueimp-md5/js/md5.min.js',
             './node_modules/jquery.resizeend/lib/jquery.resizeend.js',
             './node_modules/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js',
-            './admin_modules/AplAdminMenu/AplAdminMenu.js',
+            './node_modules/selectize/dist/js/standalone/selectize.min.js',
+            './node_modules/mousetrap/mousetrap.js',
+            './node_modules/codemirror/lib/codemirror.js',
+            './node_modules/codemirror/mode/javascript/javascript.js',
             './admin_modules/AplDataTable/AplDataTable.js',
             './admin_modules/AplInstanceEditor/AplInstanceEditor.js',
             './admin_modules/AplActionMenu/AplActionMenu.js',
@@ -137,6 +142,7 @@ gulp.task('scripts-dev', function () {
             './admin_modules/AplAdminDialog/AplAdminDialog.js',
             './admin_modules/AplAdminFileUploader/AplAdminFileUploader.js',
             './admin_modules/AplAdminImageHistory/AplAdminImageHistory.js',
+            './OwlCarousel2-2.3.4/dist/owl.carousel.js',
             './js/main.js'
         ])
         .pipe(plumber())

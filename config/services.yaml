@@ -8,6 +8,7 @@ parameters:
     aplab_admin_public_dir: '%kernel.project_dir%/public/'
     aplab_admin_data_dir: '%kernel.project_dir%/var/aplab-admin/data/'
     aplab_admin_local_storage_path: '%kernel.project_dir%/public/filestorage/'
+    bca_fontawesomeiterator_path_to_fontawesome: '%kernel.project_dir%/src/Resources/static/node_modules/@fortawesome/fontawesome-free/'
 
 services:
     # default configuration for services in *this* file
@@ -15,8 +16,8 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-                            # fetching services directly from the container via $container->get() won't work.
-                            # The best practice is to be explicit about your dependencies anyway.
+          # fetching services directly from the container via $container->get() won't work.
+        # The best practice is to be explicit about your dependencies anyway.
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -36,6 +37,14 @@ services:
     App\Service\:
         resource: '../src/Service'
 
+    App\Service\FontawesomeIconManager:
+        arguments:
+            $path_to_fontawesome_css: '%bca_fontawesomeiterator_path_to_fontawesome%'
+
+    App\Component\SftpStorage\SftpStorageManager:
+        arguments:
+            $ini_file_path: '%kernel.project_dir%/.sftp_storage.ini'
+
     App\Command\:
         resource: '../src/Command'
 
@@ -47,10 +56,12 @@ services:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    App\Component\Menu\MenuManager:
-        arguments:
-            # $structure_location: ~
-            $structure_location: '%kernel.project_dir%/config/menu_structure_default.json'
+    #    App\Component\Menu\MenuManager:
+    #        arguments:
+    #            # $structure_location: ~
+    #            $structure_location: '%kernel.project_dir%/config/menu_structure_default.json'
+
+    App\Component\Launcher\Launcher:
 
     App\Component\ActionMenu\ActionMenuManager:
         arguments: ['@router.default']
@@ -66,10 +77,10 @@ services:
             - '@App\Component\ModuleMetadata\ModuleMetadataRepository'
             - '@doctrine.orm.entity_manager'
 
-#    App\Component\DataTableRepresentation\DataTableRepresentationTreeMod:
-#        arguments:
-#            - '@App\Component\ModuleMetadata\ModuleMetadataRepository'
-#            - '@doctrine.orm.entity_manager'
+    #    App\Component\DataTableRepresentation\DataTableRepresentationTreeMod:
+    #        arguments:
+    #            - '@App\Component\ModuleMetadata\ModuleMetadataRepository'
+    #            - '@doctrine.orm.entity_manager'
 
     App\Component\SystemState\SystemStateManager:
         arguments:
@@ -83,7 +94,7 @@ services:
 
     App\Component\Helper\EntityControllerHelper:
         arguments:
-            - '@App\Component\Menu\MenuManager'
+            - '@App\Component\Launcher\Launcher'
             - '@App\Component\ActionMenu\ActionMenuManager'
             - '@App\Component\Toolbar\ToolbarManager'
 
@@ -142,26 +153,26 @@ services:
     #        class: App\EventListener\TerminateListener
     #        arguments: ['@aplab_admin.system_state_manager', '@?']
 
-    aplab_admin.instatce_editor_manager:
-        class: App\Component\InstanceEditor\InstatceEditorManager
+    aplab_admin.instance_editor_manager:
+        class: App\Component\InstanceEditor\InstanceEditorManager
         public: true
         arguments: ~
 
-    App\Component\InstanceEditor\InstatceEditorManager: '@aplab_admin.instatce_editor_manager'
+    App\Component\InstanceEditor\InstanceEditorManager: '@aplab_admin.instance_editor_manager'
 
     #            - '@App\Component\ModuleMetadata\ModuleMetadataRepository'
     #            - '@doctrine.orm.entity_manager'
 
-#    aplab_aplab_admin.security.login_form_authenticator:
-#        class: App\Security\LoginFormAuthenticator
-#        autowire: true
-#
-#
-#    aplab_aplab_admin.doctrine.hash_password_listener:
-#        class: App\Doctrine\HashPasswordListener
-#        autowire: true
-#        tags:
-#            - { name: doctrine.event_subscriber }
+    #    aplab_aplab_admin.security.login_form_authenticator:
+    #        class: App\Security\LoginFormAuthenticator
+    #        autowire: true
+    #
+    #
+    #    aplab_aplab_admin.doctrine.hash_password_listener:
+    #        class: App\Doctrine\HashPasswordListener
+    #        autowire: true
+    #        tags:
+    #            - { name: doctrine.event_subscriber }
 
     aplab_aplab_admin.local_storage:
         class: App\Component\FileStorage\LocalStorage
