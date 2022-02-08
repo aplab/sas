@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:49
- */
-
-namespace App\Component\DataTableRepresentation\CellType;
-
+<?php namespace App\Component\DataTableRepresentation\CellType;
 
 use App\Component\DataTableRepresentation\DataTableCell;
 use LogicException;
@@ -37,6 +28,7 @@ abstract class CellTypeAbstract implements CellTypeInterface
         return spl_object_id($this);
     }
 
+    /** @noinspection SpellCheckingInspection */
     public function getValue(object $entity): mixed
     {
         $property_name = $this->cell->getPropertyName();

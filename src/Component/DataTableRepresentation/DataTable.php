@@ -21,35 +21,14 @@ use ReflectionException;
 
 class DataTable
 {
-    /**
-     * @var string
-     */
-    protected $entityClassName;
+    protected string $entityClassName;
+    protected ReflectionClass $entityReflectionClass;
+    protected EntityManagerInterface $entityManager;
+    protected ModuleMetadata $moduleMetadata;
 
-    /**
-     * @var ReflectionClass
-     */
-    protected $entityReflectionClass;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $entityManager;
-
-    /**
-     * @var ModuleMetadata
-     */
-    protected $moduleMetadata;
-
-    /**
-     * @var DataTableCell[];
-     */
-    protected $cell;
-
-    /**
-     * @var CssWidthDefinition
-     */
-    protected $cssWidthDefinition;
+    /** @var DataTableCell[]; */
+    protected array $cell;
+    protected CssWidthDefinition $cssWidthDefinition;
 
     /**
      * @var SystemState
@@ -59,24 +38,15 @@ class DataTable
     /**
      * READ-ONLY: The field names of all fields that are part of the identifier/primary key
      * of the mapped entity class.
-     *
-     * @var array
      */
-    protected $identifier;
+    protected array $identifier;
 
-    /**
-     * @return array
-     */
     public function getIdentifier(): array
     {
         return $this->identifier;
     }
 
-    /**
-     * @param $item
-     * @return false|string
-     */
-    public function helperIdentifierJson($item)
+    public function helperIdentifierJson($item): bool|string
     {
         $data = [];
         foreach ($this->identifier as $i) {
@@ -87,13 +57,10 @@ class DataTable
     }
 
     /**
-     * DataTable constructor.
-     * @param ReflectionClass $entity_reflection_class
-     * @param DataTableRepresentation $data_table_representation
-     * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function __construct(ReflectionClass $entity_reflection_class,
+    public function __construct(ReflectionClass         $entity_reflection_class,
                                 DataTableRepresentation $data_table_representation)
     {
         $this->entityReflectionClass = $entity_reflection_class;
@@ -108,10 +75,8 @@ class DataTable
         $this->initCell();
     }
 
-    /**
-     * @return DataTableCell[]
-     */
-    public function getCell()
+    /** @return DataTableCell[] */
+    public function getCell(): array
     {
         if (is_null($this->cell)) {
             $this->initCell();
@@ -119,9 +84,6 @@ class DataTable
         return $this->cell;
     }
 
-    /**
-     * Data table cell initialization
-     */
     protected function initCell(): void
     {
         $this->cell = [];
@@ -143,7 +105,7 @@ class DataTable
      * Temporary stub
      * @return object[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         $pager = $this->getPager();
         return $this->entityManager->getRepository($this->entityClassName)->findBy(
@@ -154,16 +116,9 @@ class DataTable
         );
     }
 
-    /**
-     * @var int
-     */
-    protected $count;
+    protected ?int $count = null;
 
-    /**
-     * @param void
-     * @return int
-     */
-    public function getCount():int
+    public function getCount(): int
     {
         if (is_null($this->count)) {
             $this->count = $this->entityManager->getRepository($this->entityClassName)->count([]);
@@ -171,15 +126,9 @@ class DataTable
         return $this->count;
     }
 
-    /**
-     * @var Pager
-     */
-    protected $pager;
+    protected ?Pager $pager = null;
 
-    /**
-     * @return Pager
-     */
-    public function getPager()
+    public function getPager(): Pager
     {
         if (is_null($this->pager)) {
             $pager = $this->systemState->get('pager');
@@ -194,49 +143,31 @@ class DataTable
         return $this->pager;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityClassName(): string
     {
         return $this->entityClassName;
     }
 
-    /**
-     * @return ReflectionClass
-     */
     public function getEntityReflectionClass(): ReflectionClass
     {
         return $this->entityReflectionClass;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getEntityManager(): EntityManagerInterface
     {
         return $this->entityManager;
     }
 
-    /**
-     * @return ModuleMetadata
-     */
     public function getModuleMetadata(): ModuleMetadata
     {
         return $this->moduleMetadata;
     }
 
-    /**
-     * @return CssWidthDefinition
-     */
     public function getCssWidthDefinition(): CssWidthDefinition
     {
         return $this->cssWidthDefinition;
     }
 
-    /**
-     * @return SystemState
-     */
     public function getSystemState(): SystemState
     {
         return $this->systemState;

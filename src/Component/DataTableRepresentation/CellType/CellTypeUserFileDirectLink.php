@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 05.09.2018
- * Time: 23:12
- */
-
-namespace App\Component\DataTableRepresentation\CellType;
-
+<?php /** @noinspection SpellCheckingInspection */ namespace App\Component\DataTableRepresentation\CellType;
 
 use App\Util\Path;
 

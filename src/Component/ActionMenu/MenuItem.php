@@ -37,14 +37,14 @@ class MenuItem implements JsonSerializable
 
     protected bool $disabled = false;
 
-    protected string $class;
+    protected ?string $class = null;
 
     /**
      * The target attribute specifies where to open the linked document.
      * Variants: _blank|_self|_parent|_top|framename
      * @noinspection SpellCheckingInspection
      */
-    protected string $target;
+    protected ?string $target = null;
 
     protected Action $action;
 
