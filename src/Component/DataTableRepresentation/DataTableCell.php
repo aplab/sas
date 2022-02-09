@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:46
- */
-
-namespace App\Component\DataTableRepresentation;
-
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */ namespace App\Component\DataTableRepresentation;
 
 use App\Component\DataTableRepresentation\CellType\CellTypeInterface;
 use App\Component\ModuleMetadata\Cell;
@@ -18,56 +9,16 @@ use ReflectionProperty;
 class DataTableCell
 {
     private DataTable $dataTable;
-
-    /**
-     * @var string
-     */
-    private $propertyName;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $label;
-
-    /**
-     * @var string
-     */
-    private $comment;
-
-    /**
-     * @var string
-     */
-    private $help;
-
-    /**
-     * @var int
-     */
-    private $width;
-
-    /**
-     * @var int
-     */
-    private $order;
-
-    /**
-     * @var CellTypeInterface
-     */
-    private $type;
-
-    /**
-     * @var Options
-     */
-    private $options;
+    private string $propertyName, $title, $label, $comment, $help;
+    private int $width, $order;
+    private mixed $type;
+    private Options $options;
 
     public function __construct(DataTable $data_table, ReflectionProperty $property, Property $property_metadata,
                                 Cell $cell_metadata)
     {
         $this->dataTable = $data_table;
+        /** @noinspection DuplicatedCode */
         $this->propertyName = $property->getName();
         $title = $cell_metadata->getTitle();
         if ($title) {
@@ -84,33 +35,21 @@ class DataTableCell
         $this->options = $cell_metadata->getOptions();
     }
 
-    /**
-     * @return string
-     */
     public function getPropertyName(): string
     {
         return $this->propertyName;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth(): int
     {
         return $this->width;
     }
 
-    /**
-     * @return int
-     */
     public function getOrder(): int
     {
         return $this->order;
     }
 
-    /**
-     * @return CellTypeInterface
-     */
     public function getType(): CellTypeInterface
     {
         return $this->type;

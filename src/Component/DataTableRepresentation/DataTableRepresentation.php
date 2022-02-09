@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:42
- */
-
-namespace App\Component\DataTableRepresentation;
-
+<?php namespace App\Component\DataTableRepresentation;
 
 use App\Component\ModuleMetadata\ModuleMetadataRepository;
 use App\Component\SystemState\SystemStateManager;
@@ -22,14 +13,10 @@ class DataTableRepresentation
     protected ModuleMetadataRepository $moduleMetadataRepository;
     protected EntityManagerInterface $entityManager;
 
-    /**
-     * @var ReflectionClass[]
-     */
+    /** @var ReflectionClass[] */
     protected array $entityReflectionClass = [];
 
-    /**
-     * @var DataTable[]
-     */
+    /** @var DataTable[] */
     protected array $dataTable = [];
 
     protected CssWidthDefinition $cssWidthDefinition;
@@ -59,11 +46,8 @@ class DataTableRepresentation
     }
 
     /**
-     * @param string $entity_class_name
-     * @param null|string $type
-     * @return DataTable
-     * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function getDataTable(string $entity_class_name, ?string $type = null):DataTable
     {
@@ -80,25 +64,17 @@ class DataTableRepresentation
         return $this->dataTable[$entity_class_name];
     }
 
-    /**
-     * @return CssWidthDefinition
-     */
     public function getCssWidthDefinition(): CssWidthDefinition
     {
         return $this->cssWidthDefinition;
     }
 
-    /**
-     * @return ReflectionClass[]
-     */
+    /** @return ReflectionClass[] */
     public function getEntityReflectionClass(): array
     {
         return $this->entityReflectionClass;
     }
 
-    /**
-     * @return SystemStateManager
-     */
     public function getSystemStateManager(): SystemStateManager
     {
         return $this->systemStateManager;

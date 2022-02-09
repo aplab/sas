@@ -1,24 +1,12 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.08.2018
- * Time: 10:58
- */
-
-namespace App\EventListener;
-
-
-
-
+<?php namespace App\EventListener;
 use App\Component\SystemState\SystemStateManager;
 use Psr\Log\LoggerInterface;
 
 class TerminateListener
 {
-    private $systemStateManager;
+    private SystemStateManager $systemStateManager;
 
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(SystemStateManager $systemStateManager, LoggerInterface $logger)
     {
@@ -26,6 +14,7 @@ class TerminateListener
         $this->logger = $logger;
     }
 
+    /** @noinspection PhpUnusedParameterInspection */
     public function onKernelTerminate($event)
     {
         $this->systemStateManager->flush($this->logger);

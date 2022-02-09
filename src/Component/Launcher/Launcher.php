@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Component\Launcher;
-
 
 use App\Entity\DesktopEntry;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,9 +18,7 @@ class Launcher
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @return DesktopEntry[]
-     */
+    /** @return DesktopEntry[] */
     public function getData(): array
     {
         if (is_null($this->data)) {

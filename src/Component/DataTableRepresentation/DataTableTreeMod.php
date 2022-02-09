@@ -1,21 +1,8 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 09.09.2018
- * Time: 11:53
- */
-
-namespace App\Component\DataTableRepresentation;
-
+<?php namespace App\Component\DataTableRepresentation;
 
 class DataTableTreeMod extends DataTable
 {
-    /**
-     * @param void
-     * @return int
-     */
-    public function getCount():int
+    public function getCount(): int
     {
         if (is_null($this->count)) {
             $this->count = $this->entityManager->getRepository($this->entityClassName)->getRootsCount([]);
@@ -27,7 +14,7 @@ class DataTableTreeMod extends DataTable
      * Temporary stub
      * @return object[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         $pager = $this->getPager();
         return $this->entityManager->getRepository($this->entityClassName)->rootPage(
