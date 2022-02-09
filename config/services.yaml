@@ -56,11 +56,6 @@ services:
         autowire: true
         tags: ['doctrine.repository_service']
 
-    #    App\Component\Menu\MenuManager:
-    #        arguments:
-    #            # $structure_location: ~
-    #            $structure_location: '%kernel.project_dir%/config/menu_structure_default.json'
-
     App\Component\Launcher\Launcher:
 
     App\Component\ActionMenu\ActionMenuManager:
