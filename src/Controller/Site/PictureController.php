@@ -33,6 +33,7 @@ class PictureController extends VkImportPlugin
      * @var string
      */
     protected $entityClassName = Picture::class;
+
     /**
      * @param DataTableRepresentation $data_table_representation
      * @return Response
@@ -41,9 +42,9 @@ class PictureController extends VkImportPlugin
      * @throws Exception
      */
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
-        $helper  = $this->adminControllerHelper;
+        $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
         $toolbar->addUrl(
             'New item',
@@ -64,9 +65,10 @@ class PictureController extends VkImportPlugin
             sprintf('AplDataTable.getInstance().importFromVk(\'%s\');', $this->getVkImportUrl()),
             'fab fa-vk text-info');
         $data_table = $data_table_representation->getDataTable($this->getEntityClassName());
-        $pager      = $data_table->getPager();
+        $pager = $data_table->getPager();
         return $this->render('data-table/data-table.html.twig', get_defined_vars());
     }
+
     /**
      * @param $vk_post_data
      * @param ImageUploader $uploader
@@ -76,7 +78,7 @@ class PictureController extends VkImportPlugin
     protected function tryCreateNewItemFromVkPostData($vk_post_data, ImageUploader $uploader)
     {
         $post_data = reset($vk_post_data);
-        $vk_post   = new VkPost($post_data);
+        $vk_post = new VkPost($post_data);
         foreach ($vk_post->getPhotos() as $photo) {
             try {
                 $photo->getMaxSize()->download($uploader);
@@ -99,7 +101,7 @@ class PictureController extends VkImportPlugin
         }
         $newItem->setName(mb_substr($name, 0, 255));
         $newItem->setText1($text);
-        $text2                 = $text;
+        $text2 = $text;
         $url_to_link_converter = new UrlToLink;
         foreach ($vk_post->getPhotos() as $photo) {
             if ($photo->getMaxSize()->isDownloaded()) {

@@ -30,6 +30,7 @@ class SectionController extends ReferenceController
      * @var string
      */
     protected $entityClassName = Section::class;
+
     /**
      * @param DataTableRepresentation $data_table_representation
      * @return Response
@@ -38,7 +39,7 @@ class SectionController extends ReferenceController
      * @throws ReflectionException
      */
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
         $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();

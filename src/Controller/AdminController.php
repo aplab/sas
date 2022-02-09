@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Admin;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -18,13 +19,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AdminController extends ReferenceController
 {
     protected string $entityClassName = Admin::class;
+
     public function setPasswordEncoder(UserPasswordEncoderInterface $passwordEncoder)
     {
         $class = $this->entityClassName;
         $class::setPasswordEncoder($passwordEncoder);
     }
+
     #[Route(path: '/del', name: 'drop', methods: ['POST'])]
-    public function dropItem()
+    public function dropItem(): RedirectResponse
     {
         $user = $this->getUser();
         $class = $this->getEntityClassName();

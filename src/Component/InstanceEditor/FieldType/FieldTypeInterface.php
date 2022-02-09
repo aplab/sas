@@ -14,4 +14,5 @@ interface FieldTypeInterface
     public function getType();
     public function getValue();
     public function getUniqueId();
+    public function getOptionsDataList();
 }

@@ -15,7 +15,7 @@ class FieldTypeEntityId extends FieldTypeAbstract
 {
     protected ?string $entityClass = null;
 
-    public function getOptionsDataList()
+    public function getOptionsDataList(): array
     {
         $em = $this->field->getInstanceEditor()->getEntityManagerInterface();
         $repository = $em->getRepository($this->getEntityClass());

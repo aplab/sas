@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.01.2019
- * Time: 0:23
- */
-
-namespace App\Traits\EntityFields\ImgSet;
+<?php namespace App\Traits\EntityFields\ImgSet;
 
 use App\Component\ModuleMetadata\Property;
 use Doctrine\ORM\Mapping\Column;

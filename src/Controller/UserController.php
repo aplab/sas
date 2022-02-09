@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use RuntimeException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -26,6 +27,7 @@ class UserController extends ReferenceController
      * @var string
      */
     protected $entityClassName = User::class;
+
     public function setPasswordEncoder(UserPasswordEncoderInterface $passwordEncoder)
     {
         /**
@@ -34,6 +36,7 @@ class UserController extends ReferenceController
         $class = $this->entityClassName;
         $class::setPasswordEncoder($passwordEncoder);
     }
+
     public function setValidator(ValidatorInterface $validator)
     {
         /**
@@ -42,8 +45,9 @@ class UserController extends ReferenceController
         $class = $this->entityClassName;
         $class::setValidator($validator);
     }
+
     #[Route(path: '/del', name: 'drop', methods: ['POST'])]
-    public function dropItem()
+    public function dropItem(): RedirectResponse
     {
         $class = $this->getEntityClassName();
         $entity_manager = $this->getDoctrine()->getManager();

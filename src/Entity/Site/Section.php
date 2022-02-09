@@ -4,7 +4,6 @@ namespace App\Entity\Site;
 
 use App\Component\DataTableRepresentation\CellType\CellTypeEditId;
 use App\Component\DataTableRepresentation\CellType\CellTypeEntity;
-use App\Component\DataTableRepresentation\CellType\CellTypeLabel;
 use App\Component\DataTableRepresentation\CellType\CellTypeTree;
 use App\Component\InstanceEditor\FieldType\FieldTypeEntity;
 use App\Component\InstanceEditor\FieldType\FieldTypeLabel;
@@ -62,7 +61,7 @@ class Section
     #[Id]
     #[GeneratedValue]
     #[Column(type: 'bigint')]
-    private $id;
+    private ?int $id;
 
     #[OneToMany(mappedBy: 'parent', targetEntity: '\App\Entity\Site\Section')]
     #[OrderBy(value: ['sortOrder' => 'ASC', 'id' => 'ASC'])]

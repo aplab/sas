@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:57
- */
-
-namespace App\Component\InstanceEditor;
-
+<?php namespace App\Component\InstanceEditor;
 
 use LogicException;
 
@@ -46,9 +37,7 @@ class InstanceEditorTab
         return $this;
     }
 
-    /**
-     * @return InstanceEditorField[]
-     */
+    /** @return InstanceEditorField[] */
     public function getField(): array
     {
         return $this->field;

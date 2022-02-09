@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.01.2019
- * Time: 1:36
- */
-
-namespace App\Traits\EntityFields\ImgSet;
+<?php namespace App\Traits\EntityFields\ImgSet;
 
 use App\Component\DataTableRepresentation\CellType\CellTypeImage;
 use App\Component\InstanceEditor\FieldType\FieldTypeImage;

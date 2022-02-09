@@ -1,12 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.01.2019
- * Time: 0:23
- */
-
-namespace App\Traits\EntityFields\CemeterySection;
+<?php namespace App\Traits\EntityFields\CemeterySection;
 
 use App\Component\DataTableRepresentation\CellType\CellTypeLabel;
 use App\Component\InstanceEditor\FieldType\FieldTypeText;

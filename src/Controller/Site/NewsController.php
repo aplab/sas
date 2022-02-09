@@ -30,6 +30,7 @@ use Throwable;
 class NewsController extends VkImportPlugin
 {
     protected string $entityClassName = News::class;
+
     /**
      * @param DataTableRepresentation $data_table_representation
      * @return Response
@@ -38,9 +39,9 @@ class NewsController extends VkImportPlugin
      * @throws Exception
      */
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
-        $helper  = $this->adminControllerHelper;
+        $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
         $toolbar->addUrl(
             'New item',
@@ -61,9 +62,10 @@ class NewsController extends VkImportPlugin
             sprintf('AplDataTable.getInstance().importFromVk(\'%s\');', $this->getVkImportUrl()),
             'fab fa-vk text-info');
         $data_table = $data_table_representation->getDataTable($this->getEntityClassName());
-        $pager      = $data_table->getPager();
+        $pager = $data_table->getPager();
         return $this->render('data-table/data-table.html.twig', get_defined_vars());
     }
+
     /**
      * @param $vk_post_data
      * @param ImageUploader $uploader
@@ -73,7 +75,7 @@ class NewsController extends VkImportPlugin
     protected function tryCreateNewItemFromVkPostData($vk_post_data, ImageUploader $uploader)
     {
         $post_data = reset($vk_post_data);
-        $vk_post   = new VkPost($post_data);
+        $vk_post = new VkPost($post_data);
         foreach ($vk_post->getPhotos() as $photo) {
             try {
                 $photo->getMaxSize()->download($uploader);
@@ -92,7 +94,7 @@ class NewsController extends VkImportPlugin
         }
         $newItem->setName(mb_substr($name, 0, 255));
         $newItem->setText1($text);
-        $text2                 = $text;
+        $text2 = $text;
         $url_to_link_converter = new UrlToLink;
         foreach ($vk_post->getPhotos() as $photo) {
             if ($photo->getMaxSize()->isDownloaded()) {
@@ -100,11 +102,11 @@ class NewsController extends VkImportPlugin
                 $newItem->setImage1($url);
                 $newItem->setImage2($url);
                 /** @noinspection HtmlUnknownTarget */
-                $text2      .= sprintf('<p><img src="%s" alt="">', $url);
+                $text2 .= sprintf('<p><img src="%s" alt="">', $url);
                 $photo_text = $photo->getText();
                 if ($photo_text) {
                     $photo_text = $url_to_link_converter($photo_text);
-                    $text2      .= sprintf('<br><small class="text-secondary">%s</small><br><br>', $photo_text);
+                    $text2 .= sprintf('<br><small class="text-secondary">%s</small><br><br>', $photo_text);
                 }
                 $text2 .= '</p>';
             }

@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:59
- */
-
-namespace App\Component\InstanceEditor\FieldType;
-
+<?php namespace App\Component\InstanceEditor\FieldType;
 
 use App\Component\InstanceEditor\InstanceEditorField;
 use LogicException;
@@ -18,9 +9,11 @@ class FieldTypeEntity extends FieldTypeAbstract
 
     public function getValue(): mixed
     {
+        /** @noinspection DuplicatedCode */
         $entity = $this->field->getEntity();
         $property_name = $this->field->getPropertyName();
         $property_name_ucfirst = ucfirst($property_name);
+        /** @noinspection SpellCheckingInspection */
         $accessors = [
             'getter' => 'get' . $property_name_ucfirst,
             'isser' => 'is' . $property_name_ucfirst,
@@ -31,7 +24,7 @@ class FieldTypeEntity extends FieldTypeAbstract
                 return $entity->$accessor();
             }
         }
-        throw new LogicException('Unable to access property ' . get_class($entity) . '::' . $property_name);
+        throw new LogicException('unable to access property ' . get_class($entity) . '::' . $property_name);
     }
 
     public function getOptionsDataList()

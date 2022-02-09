@@ -1,14 +1,6 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:57
- */
+<?php namespace App\Component\InstanceEditor;
 
-namespace App\Component\InstanceEditor;
-
-
+use App\Component\InstanceEditor\FieldType\FieldTypeEntity;
 use App\Component\ModuleMetadata\ModuleMetadata;
 use App\Component\ModuleMetadata\ModuleMetadataRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,36 +20,24 @@ class InstanceEditor
     protected ModuleMetadata $moduleMetadata;
     protected ClassMetadata $classMetadata;
 
-    /**
-     * @var InstanceEditorField[]
-     */
+    /** @var InstanceEditorField[] */
     protected array $widget;
 
-    /**
-     * @var InstanceEditorTab[]
-     */
+    /** @var InstanceEditorTab[] */
     protected array $tab;
 
     /**
      * READ-ONLY: The field names of all fields that are part of the identifier/primary key
      * of the mapped entity class.
-     *
-     * @var array
      */
-    protected $identifier;
+    protected array $identifier;
 
-    /**
-     * @return array
-     */
     public function getIdentifier(): array
     {
         return $this->identifier;
     }
 
-    /**
-     * @return false|string
-     */
-    public function helperIdentifierJson()
+    public function helperIdentifierJson(): bool|string
     {
         $data = [];
         foreach ($this->identifier as $i) {
@@ -68,11 +48,8 @@ class InstanceEditor
     }
 
     /**
-     * InstanceEditor constructor.
-     * @param object $entity
-     * @param InstanceEditorManager $instance_editor_manager
-     * @throws InvalidArgumentException
-     * @throws ReflectionException|\Psr\Cache\InvalidArgumentException
+     * @throws ReflectionException
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function __construct(object $entity, InstanceEditorManager $instance_editor_manager)
     {
@@ -138,9 +115,7 @@ class InstanceEditor
             $tab->setOrder($tab_order_configuration[$tab_name] ?? $number++);
         }
         // building tab index
-        /**
-         * @var InstanceEditorTab[]
-         */
+        /** @var InstanceEditorTab[] */
         $tab_index = [];
         foreach ($this->tab as $tab) {
             $tab_name = $tab->getName();
@@ -158,10 +133,7 @@ class InstanceEditor
         }
     }
 
-    /**
-     * @param Request $request
-     * @throws Exception
-     */
+    /** @throws Exception */
     public function handleRequest(Request $request)
     {
         $data = $request->request->get(static::REQUEST_KEY, []);
@@ -175,11 +147,10 @@ class InstanceEditor
                 continue;
             }
             $type = $widget->getType()->getType();
-            if ('entity' === $type) {
+            if ($type instanceof FieldTypeEntity) {
                 $class = $widget->getType()->getEntityClass();
                 $repository = $this->entityManagerInterface->getRepository($class);
                 $value = $repository->find($data[$property_name]);
-
             } else {
                 $value = $data[$property_name];
             }

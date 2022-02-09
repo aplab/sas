@@ -29,6 +29,7 @@ class GalleryBuilderController extends ReferenceController
      * @var string
      */
     protected $entityClassName = Image::class;
+
     /**
      * @param DataTableRepresentation $data_table_representation
      * @return Response
@@ -37,9 +38,9 @@ class GalleryBuilderController extends ReferenceController
      * @throws ReflectionException
      */
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
-        $helper  = $this->adminControllerHelper;
+        $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
         $toolbar->addUrl('New item', $helper->getModulePath('add'), 'fas fa-plus text-success');
         $toolbar->addHandler('Delete selected', 'AplDataTable.getInstance().del();', 'fas fa-times text-danger');
@@ -48,16 +49,17 @@ class GalleryBuilderController extends ReferenceController
         $toolbar->addHandler('Alt all', 'AplDataTable.getInstance().galleryBuilderMassFillAltPlugin()', 'fas fa-list-alt');
         $ti->setTarget('_blank');
         $data_table = $data_table_representation->getDataTable($this->getEntityClassName(), DataTableOrderMod::class);
-        $pager      = $data_table->getPager();
+        $pager = $data_table->getPager();
         return $this->render('data-table/data-table.html.twig', get_defined_vars());
     }
+
     /**
      * @return Response
      */
     #[Route(path: '/gallery', name: 'gallery', methods: ['GET'])]
     public function gallery()
     {
-        $repo  = $this->getDoctrine()->getRepository(Image::class);
+        $repo = $this->getDoctrine()->getRepository(Image::class);
         $items = $repo->findBy([], ['sortOrder' => 'ASC', 'id' => 'ASC'],);
         foreach ($items as $item) {
             $source_link = new OytoySourceLink;
@@ -67,6 +69,7 @@ class GalleryBuilderController extends ReferenceController
         unset($repo);
         return $this->render('gallery-builder.html.twig', get_defined_vars());
     }
+
     /**
      * @return Response
      */
@@ -81,7 +84,7 @@ class GalleryBuilderController extends ReferenceController
             return $this->redirectToRoute($this->getRouteAnnotation()->getName() . 'list');
         }
         $alt = mb_substr($alt, 0, 16384);
-        $repo  = $this->getDoctrine()->getRepository(Image::class);
+        $repo = $this->getDoctrine()->getRepository(Image::class);
         $em = $this->getDoctrine()->getManager();
         $items = $repo->findAll();
         foreach ($items as $item) {

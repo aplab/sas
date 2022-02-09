@@ -24,7 +24,7 @@ class InstanceEditorField
     private string $comment;
     private string $help;
     private int $order;
-    private mixed $type;
+    private FieldTypeInterface $type;
     private Options $options;
     private string $tab;
 
@@ -32,6 +32,7 @@ class InstanceEditorField
                                 Property $property_metadata, Widget $widget_metadata)
     {
         $this->instanceEditor = $instance_editor;
+        /** @noinspection DuplicatedCode */
         $this->propertyName = $property->getName();
         $title = $widget_metadata->getTitle();
         if ($title) {

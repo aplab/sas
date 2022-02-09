@@ -11,7 +11,7 @@ class DataTableCell
     private DataTable $dataTable;
     private string $propertyName, $title, $label, $comment, $help;
     private int $width, $order;
-    private mixed $type;
+    private CellTypeInterface $type;
     private Options $options;
 
     public function __construct(DataTable $data_table, ReflectionProperty $property, Property $property_metadata,

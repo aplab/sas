@@ -13,6 +13,7 @@ use App\Component\DataTableRepresentation\DataTableRepresentation;
 use App\Entity\SystemParameter;
 use App\Repository\SystemParameterRepository;
 use App\Resources\SystemParameterDefault;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/system-parameter', name: 'system_parameter_')]
@@ -21,7 +22,7 @@ class SystemParameterController extends ReferenceController
     protected string $entityClassName = SystemParameter::class;
 
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
         $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();

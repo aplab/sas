@@ -4,6 +4,7 @@ use App\Component\DataTableRepresentation\DataTableRepresentation;
 use App\Component\Helper\EntityControllerHelper;
 use App\Entity\Icon;
 use App\Service\FontawesomeIconManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/icon', name: 'icon_')]
@@ -19,7 +20,7 @@ class IconController extends ReferenceController
     }
 
     #[Route(path: '/', name: 'list', methods: ['GET'])]
-    public function listItems(DataTableRepresentation $data_table_representation)
+    public function listItems(DataTableRepresentation $data_table_representation): Response
     {
         $helper = $this->adminControllerHelper;
         $toolbar = $this->adminControllerHelper->getToolbar();
