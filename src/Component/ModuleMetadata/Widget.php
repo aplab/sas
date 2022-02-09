@@ -1,13 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 30.07.2018
- * Time: 20:39
- */
-
-namespace App\Component\ModuleMetadata;
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */ namespace App\Component\ModuleMetadata;
 
 use Attribute;
 

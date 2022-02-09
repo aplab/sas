@@ -1,19 +1,24 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */ namespace App\Component\ModuleMetadata;
 
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 30.07.2018
- * Time: 20:39
- */
-
-namespace App\Component\ModuleMetadata;
-
+use Attribute;
 use Doctrine\ORM\Mapping\Annotation;
 
-#[\Attribute(\Attribute::TARGET_PROPERTY)]
+#[Attribute(Attribute::TARGET_PROPERTY)]
 class Property implements Annotation
 {
+    /** @var Widget[] */
+    private array $widget = [];
+
+    /** @var Cell[] */
+    private array $cell;
+
+    private string $title;
+    private string $description;
+    private string $help;
+    private string $comment;
+    private string $label;
+    private bool $readonly;
+
     public function __construct(
         string  $title,
         ?string $description = null,
@@ -31,26 +36,7 @@ class Property implements Annotation
         $this->readonly = $readonly ?? false;
     }
 
-    /**
-     * @var Widget[]
-     */
-    private array $widget = [];
-
-    /**
-     * @var Cell[]
-     */
-    private array $cell;
-
-    private string $title;
-    private string $description;
-    private string $help;
-    private string $comment;
-    private string $label;
-    private bool $readonly;
-
-    /**
-     * @return Widget[]
-     */
+    /** @return Widget[] */
     public function getWidget(): array
     {
         return $this->widget;
@@ -73,9 +59,7 @@ class Property implements Annotation
         return $this;
     }
 
-    /**
-     * @return Cell[]
-     */
+    /** @return Cell[] */
     public function getCell(): array
     {
         return $this->cell;

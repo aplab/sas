@@ -1,6 +1,5 @@
 <?php namespace App\Component\ModuleMetadata;
 
-use Doctrine\Common\Annotations\Reader;
 use Psr\Cache\InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
@@ -32,7 +31,7 @@ class ModuleMetadataRepository
         $cache_key = join(static::CACHE_KEY_DELIMITER, [
             $this->cacheKeyPrefix, $cache_key_suffix
         ]);
-        return $this->cache->get($cache_key, function () use($reflection_class) {
+        return $this->cache->get($cache_key, function () use ($reflection_class) {
             return new ModuleMetadata($reflection_class);
         });
     }

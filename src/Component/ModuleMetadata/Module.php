@@ -1,6 +1,4 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-namespace App\Component\ModuleMetadata;
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */ namespace App\Component\ModuleMetadata;
 
 use Attribute;
 
