@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 17:18
- */
-
-namespace App\Component\ModuleMetadata;
-
+<?php namespace App\Component\ModuleMetadata;
 
 use Doctrine\Common\Annotations\Reader;
 use Psr\Cache\InvalidArgumentException;
@@ -30,12 +21,10 @@ class ModuleMetadataRepository
     }
 
     /**
-     * @param $object
-     * @return ModuleMetadata
-     * @throws InvalidArgumentException
      * @throws ReflectionException
+     * @throws InvalidArgumentException
      */
-    public function getMetadata($object)
+    public function getMetadata($object): ModuleMetadata
     {
         $reflection_class = new ReflectionClass($object);
         $class_name = $reflection_class->getName();
@@ -56,13 +45,5 @@ class ModuleMetadataRepository
     public function getCache(): CacheInterface
     {
         return $this->cache;
-    }
-
-    /**
-     * @return Reader
-     */
-    public function getReader(): Reader
-    {
-        return $this->reader;
     }
 }

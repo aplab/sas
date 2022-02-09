@@ -1,21 +1,11 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 20.08.2018
- * Time: 15:57
- */
-
-namespace App\Component\DataTableRepresentation;
+<?php namespace App\Component\DataTableRepresentation;
 
 
-use App\Component\DataTableRepresentation\CellType\CellTypeFactory;
 use App\Component\DataTableRepresentation\Pager\Pager;
 use App\Component\ModuleMetadata\ModuleMetadata;
 use App\Component\SystemState\SystemState;
 use App\Util\CssWidthDefinition;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\SimpleCache\InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 

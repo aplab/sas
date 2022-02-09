@@ -9,7 +9,6 @@
 namespace App\Component\DataTableRepresentation;
 
 
-use App\Component\DataTableRepresentation\CellType\CellTypeFactory;
 use App\Component\DataTableRepresentation\CellType\CellTypeInterface;
 use App\Component\ModuleMetadata\Cell;
 use App\Component\ModuleMetadata\Options;

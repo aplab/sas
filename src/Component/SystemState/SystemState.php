@@ -1,60 +1,32 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 25.08.2018
- * Time: 9:00
- */
-
-namespace App\Component\SystemState;
-
+<?php namespace App\Component\SystemState;
 
 use App\Util\Path;
+use RuntimeException;
+use Throwable;
 
 class SystemState
 {
-    /**
-     * @var int
-     */
-    private $id;
+    private int $id;
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * SystemState constructor.
-     * @param int $id
-     */
     private function __construct(int $id = 0)
     {
         $this->id = $id;
         $this->data = [];
     }
 
-    /**
-     * @var array
-     */
-    private $data;
+    private array $data;
 
-    /**
-     * @param $name
-     * @return null
-     */
-    public function __get($name)
+    public function __get(mixed $name): DataBag
     {
         return $this->get($name);
     }
 
-    /**
-     * @param $name
-     * @return DataBag
-     */
-    public function get($name)
+    public function get(mixed $name): DataBag
     {
         $key = self::k($name);
         if (!array_key_exists($key, $this->data)) {
@@ -66,41 +38,24 @@ class SystemState
         return $this->data[$key];
     }
 
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function __set($name, $value)
+    public function __set(mixed $name, mixed $value)
     {
-        throw new \RuntimeException('direct modification not allowed');
+        throw new RuntimeException('direct modification not allowed');
     }
 
-    /**
-     * @param $name
-     * @return string
-     */
-    private static function k($name)
+    private static function k($name): string
     {
         return md5(serialize($name));
     }
 
-    /**
-     * Уничтожить переменную
-     *
-     * @param string $name
-     */
-    public function purge($name)
+    public function purge(string $name)
     {
         $key = $this->k($name);
         unset($this->data[$key]);
     }
 
-    /**
-     * @param int $id
-     * @param SystemStateManager $manager
-     * @return self
-     */
-    public static function create(int $id, SystemStateManager $manager) {
+    public static function create(int $id, SystemStateManager $manager): SystemState
+    {
         $path = new Path($manager->getDataDir(), $id);
         $fs = $manager->getFilesystem();
         if (!$fs->exists($path)) {
@@ -110,13 +65,13 @@ class SystemState
         try {
             $o = unserialize($data);
             if (!($o instanceof static)) {
-                throw new \RuntimeException('wrong data');
+                throw new RuntimeException('wrong data');
             }
             if ($o->getId() !== $id) {
-                throw new \RuntimeException('id mismatch');
+                throw new RuntimeException('id mismatch');
             }
             return $o;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             $fs->remove($path);
             return new static($id);
         }

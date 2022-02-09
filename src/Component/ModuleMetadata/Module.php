@@ -1,6 +1,5 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-
 namespace App\Component\ModuleMetadata;
 
 use Attribute;
@@ -20,6 +19,14 @@ class Module
         TabDef::MAP => 10000618,
     ];
 
+    private array $tabOrder;
+    private string $title;
+    private string $description;
+    private string $help;
+    private string $comment;
+    private string $name;
+    private string $label;
+
     public function __construct(
         string  $title,
         ?string $description = null,
@@ -38,14 +45,6 @@ class Module
         $this->label = $label ?? $this->title;
         $this->tabOrder = $tab_order ?? [];
     }
-
-    private array $tabOrder;
-    private string $title;
-    private string $description;
-    private string $help;
-    private string $comment;
-    private string $name;
-    private string $label;
 
     public function getTitle(): string
     {

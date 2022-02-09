@@ -1,19 +1,11 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
-
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 30.07.2018
- * Time: 20:39
- */
-
-namespace App\Component\ModuleMetadata;
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */ namespace App\Component\ModuleMetadata;
 
 use Attribute;
 
-#[Attribute(Attribute::TARGET_PROPERTY|\Attribute::IS_REPEATABLE)]
+#[Attribute(Attribute::TARGET_PROPERTY| Attribute::IS_REPEATABLE)]
 class Cell
 {
+    /** @noinspection PhpPureAttributeCanBeAddedInspection */
     public function __construct(
         string $type,
         int    $order,
@@ -35,6 +27,13 @@ class Cell
         $this->options = new Options($options);
     }
 
+    private int $width;
+    private int $order;
+    private string $type;
+    private string $label;
+    private string $title;
+    private string $help;
+    private string $comment;
     private Options $options;
 
     public function getOptions(): Options
@@ -47,14 +46,6 @@ class Cell
         $this->options = $options;
         return $this;
     }
-
-    private int $width;
-    private int $order;
-    private string $type;
-    private string $label;
-    private string $title;
-    private string $help;
-    private string $comment;
 
     public function getWidth(): int
     {

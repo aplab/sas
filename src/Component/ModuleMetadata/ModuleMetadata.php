@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 16:59
- */
-
-namespace App\Component\ModuleMetadata;
-
+<?php namespace App\Component\ModuleMetadata;
 
 use ReflectionClass;
 use RuntimeException;
@@ -59,9 +50,7 @@ class ModuleMetadata
 
     protected Module $module;
 
-    /**
-     * @var Property[]
-     */
+    /** @var Property[] */
     protected array $properties;
 
     public function getClassName(): string
@@ -80,9 +69,7 @@ class ModuleMetadata
         return $this;
     }
 
-    /**
-     * @return Property[]
-     */
+    /** @return Property[] */
     public function getProperties(): array
     {
         return $this->properties;
