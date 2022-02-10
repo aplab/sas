@@ -32,6 +32,7 @@ abstract class CellTypeAbstract implements CellTypeInterface
     public function getValue(object $entity): mixed
     {
         $property_name = $this->cell->getPropertyName();
+        /** @noinspection DuplicatedCode */
         $property_name_ucfirst = ucfirst($property_name);
         $accessors = [
             'getter' => 'get' . $property_name_ucfirst,

@@ -5,6 +5,7 @@ use LogicException;
 
 abstract class FieldTypeAbstract implements FieldTypeInterface
 {
+    // this workaround need to recognize template block
     const PREFIX = 'FieldType';
 
     protected InstanceEditorField $field;
