@@ -23,11 +23,6 @@ class FieldTypeEntityId extends FieldTypeAbstract
         return $repository->getOptionsDataList($value);
     }
 
-    public function getField(): InstanceEditorField
-    {
-        return $this->field;
-    }
-
     public function getEntityClass(): string
     {
         if (is_null($this->entityClass)) {

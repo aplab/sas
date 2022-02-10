@@ -1,13 +1,4 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: polyanin
- * Date: 02.08.2018
- * Time: 10:58
- */
-
-namespace App\Component\InstanceEditor\FieldType;
-
+<?php namespace App\Component\InstanceEditor\FieldType;
 
 use App\Component\InstanceEditor\InstanceEditorField;
 use LogicException;
@@ -15,6 +6,10 @@ use LogicException;
 abstract class FieldTypeAbstract implements FieldTypeInterface
 {
     const PREFIX = 'FieldType';
+
+    protected InstanceEditorField $field;
+    protected string $type;
+
     public function __construct(InstanceEditorField $field)
     {
         $tmp = explode(self::PREFIX, static::class);
@@ -22,16 +17,15 @@ abstract class FieldTypeAbstract implements FieldTypeInterface
         $this->field = $field;
     }
 
-    protected InstanceEditorField $field;
-    protected string $type;
-
     public function getType(): string
     {
         return $this->type;
     }
 
+    /** @noinspection SpellCheckingInspection */
     public function getValue(): mixed
     {
+        /** @noinspection DuplicatedCode */
         $entity = $this->field->getEntity();
         $property_name = $this->field->getPropertyName();
         $property_name_ucfirst = ucfirst($property_name);
@@ -45,11 +39,26 @@ abstract class FieldTypeAbstract implements FieldTypeInterface
                 return $entity->$accessor();
             }
         }
-        throw new LogicException('Unable to access property ' . get_class($entity) . '::' . $property_name);
+        throw new LogicException('unable to access property ' . get_class($entity) . '::' . $property_name);
     }
 
     public function getUniqueId(): string
     {
         return spl_object_id($this);
+    }
+
+    public function getField(): InstanceEditorField
+    {
+        return $this->field;
+    }
+
+    public function getOptionsDataList(): array
+    {
+        throw new \RuntimeException('method not allowed');
+    }
+
+    public function getEntityClass(): string
+    {
+        throw new \RuntimeException('method not allowed');
     }
 }

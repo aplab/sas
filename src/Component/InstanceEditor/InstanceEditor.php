@@ -133,10 +133,9 @@ class InstanceEditor
         }
     }
 
-    /** @throws Exception */
     public function handleRequest(Request $request)
     {
-        $data = $request->request->get(static::REQUEST_KEY, []);
+        $data = $request->request->all(static::REQUEST_KEY, []);
         if (empty($data)) {
             return;
         }
@@ -146,9 +145,9 @@ class InstanceEditor
             if (!array_key_exists($property_name, $data)) {
                 continue;
             }
-            $type = $widget->getType()->getType();
+            $type = $widget->getType();
             if ($type instanceof FieldTypeEntity) {
-                $class = $widget->getType()->getEntityClass();
+                $class = $type->getEntityClass();
                 $repository = $this->entityManagerInterface->getRepository($class);
                 $value = $repository->find($data[$property_name]);
             } else {

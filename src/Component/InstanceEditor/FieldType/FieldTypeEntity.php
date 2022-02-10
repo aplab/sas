@@ -27,17 +27,12 @@ class FieldTypeEntity extends FieldTypeAbstract
         throw new LogicException('unable to access property ' . get_class($entity) . '::' . $property_name);
     }
 
-    public function getOptionsDataList()
+    public function getOptionsDataList(): array
     {
         $em = $this->field->getInstanceEditor()->getEntityManagerInterface();
         $repository = $em->getRepository($this->getEntityClass());
         $value = $this->getValue();
         return $repository->getOptionsDataList($value);
-    }
-
-    public function getField(): InstanceEditorField
-    {
-        return $this->field;
     }
 
     public function getEntityClass(): string
